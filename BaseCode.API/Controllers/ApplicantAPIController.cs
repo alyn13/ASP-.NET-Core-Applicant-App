@@ -36,11 +36,12 @@ namespace BaseCode.API.Controllers
         }
 
         /// <summary>
-        ///     This function retrieves a Student record.
+        ///     This function retrieves a Applicant record.
         /// </summary>
-        /// <param name="id">ID of the Student record</param>
+        /// <param name="id">ID of the Applicant record</param>
         /// <returns></returns>
         [HttpGet]
+        [AllowAnonymous] 
         [ActionName("getApplicant")]
         public HttpResponseMessage GetApplicant(int id)
         {
@@ -54,6 +55,7 @@ namespace BaseCode.API.Controllers
         /// <param name="searchModel">Search filters for finding Applicant records</param>
         /// <returns></returns>
         [HttpGet]
+        [AllowAnonymous]
         [ActionName("list")]
         public HttpResponseMessage GetApplicantList([FromQuery] ApplicantSearchViewModel searchModel)
         {
@@ -102,10 +104,11 @@ namespace BaseCode.API.Controllers
         /// <summary>
         ///     This function updates an Applicant record.
         /// </summary>
-        /// <param name="applicantModel">Contains Student properties</param>
+        /// <param name="applicantModel">Contains Applicant properties</param>
         /// <returns></returns>
         [HttpPut]
         [ActionName("edit")]
+        [AllowAnonymous]
         public HttpResponseMessage PutApplicant(ApplicantViewModel applicantModel)
         {
             if (!ModelState.IsValid) return Helper.ComposeResponse(HttpStatusCode.BadRequest, Helper.GetModelStateErrors(ModelState));
@@ -147,6 +150,7 @@ namespace BaseCode.API.Controllers
         /// <param name="id">ID of the Applicant record</param>
         /// <returns></returns>
         [HttpDelete]
+        [AllowAnonymous] //change later
         [ActionName("delete")]
         public HttpResponseMessage DeleteApplicant(int id)
         {

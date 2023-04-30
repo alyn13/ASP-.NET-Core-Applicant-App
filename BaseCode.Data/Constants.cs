@@ -173,6 +173,47 @@ namespace BaseCode.Data
             public const string InvalidUserNamePassword = "Invalid username or password.";
         }
 
+        public class Applicant
+        {
+            // Sort Keys
+            public const string ApplicantHeaderId = "applicant_id";
+            public const string ApplicantHeaderFirstName = "applicant_firstname";
+            public const string ApplicantHeaderLastName = "applicant_lastname";
+            public const string ApplicantHeaderEmail = "applicant_email";
+            public const string ApplicantHeaderSubmissionDate = "applicant_submissiondate";
+            public const string ApplicantHeaderPosition = "applicant_position";
+            public const string ApplicantHeaderStatus = "applicant_status";
+
+            // Messages
+            public const string ApplicantNameExists = "Applicant name already exists";
+            public const string ApplicantEntryInvalid = "Applicant entry is not valid!";
+            public const string ApplicantNotExist = "Applicant does not exist.";
+            public const string ApplicantDoesNotExists = "Applicant does not exist.";
+            public const string ApplicantSuccessAdd = "Applicant added successfully.";
+            public const string ApplicantSuccessEdit = "Applicant is updated successfully.";
+            public const string ApplicantSuccessDelete = "Applicant is deleted successfully.";
+        }
+
+        public class Job
+        {
+            // Sort Keys
+            public const string JobHeaderId = "job_id";
+            public const string JobHeaderName = "job_name";
+            public const string JobHeaderShortDescription = "job_short_description";
+            public const string JobHeaderDescription = "job_description";
+            public const string JobHeaderResponsibilities = "job_responsibilities";
+            public const string JobHeaderQualifications = "job_qualifications";
+
+            // Messages
+            public const string JobNameExists = "Job name already exists";
+            public const string JobEntryInvalid = "Job entry is not valid!";
+            public const string JobNotExist = "Job does not exist.";
+            public const string JobDoesNotExists = "Job does not exist.";
+            public const string JobSuccessAdd = "Job position added successfully.";
+            public const string JobSuccessEdit = "Job position is updated successfully.";
+            public const string JobSuccessDelete = "Job position is deleted successfully.";
+        }
+        /*
         public class Student
         {
             // Sort Keys
@@ -192,7 +233,7 @@ namespace BaseCode.Data
             public const string StudentSuccessAdd = "Student added successfully.";
             public const string StudentSuccessEdit = "Student is updated successfully.";
             public const string StudentSuccessDelete = "Student is deleted successfully.";
-        }
+        }*/
         public class Reports
         {
             public const string ExcelTable = "<!DOCTYPE HTML><html><body><table border='1'><tr><td>This is a sample file. This a sample file.</td></tr></table></body></html>";

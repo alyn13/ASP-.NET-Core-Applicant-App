@@ -76,7 +76,8 @@ namespace BaseCode.Data
             SaveChanges();
         }
 
-        public virtual DbSet<Student> Student { get; set; }
+        public virtual DbSet<Applicant> Applicant { get; set; }
+        public virtual DbSet<Job> Job { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Client> Client { get; set; }
         public virtual DbSet<RefreshToken> RefreshToken { get; set; }

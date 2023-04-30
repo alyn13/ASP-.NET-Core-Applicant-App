@@ -16,6 +16,6 @@ namespace BaseCode.Data.Models
         public int ApplicantId { get; set; } //Foreign key
         [ForeignKey("ApplicantId")]
         [JsonIgnore]
-        public Applicant Applicant { get; set; }
+        public virtual Applicant Applicant { get; set; }
     }
 }

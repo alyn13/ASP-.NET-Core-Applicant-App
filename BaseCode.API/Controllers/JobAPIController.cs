@@ -21,14 +21,14 @@ namespace BaseCode.API.Controllers
     [Authorize(AuthenticationSchemes = Constants.Common.Bearer, Roles = Constants.Roles.Admin)]
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class StudentAPIController : ControllerBase
+    public class JobAPIController : ControllerBase
     {
-        private readonly IStudentService _studentService;
+        private readonly IJobService _jobService;
         private readonly IMapper _mapper;
 
-        public StudentAPIController(IStudentService studentService, IMapper mapper)
+        public JobAPIController(IJobService jobService, IMapper mapper)
         {
-            _studentService = studentService;
+            _jobService = jobService;
             _mapper = mapper;
         }
 
@@ -38,11 +38,12 @@ namespace BaseCode.API.Controllers
         /// <param name="id">ID of the Student record</param>
         /// <returns></returns>
         [HttpGet]
-        [ActionName("getStudent")]
-        public HttpResponseMessage GetStudent(int id)
+        [ActionName("getJob")]
+        [AllowAnonymous]
+        public HttpResponseMessage GetJob(int id)
         {
-            var student = _studentService.Find(id);
-            return student != null ? Helper.ComposeResponse(HttpStatusCode.OK, student) : Helper.ComposeResponse(HttpStatusCode.NotFound, Constants.Student.StudentDoesNotExists);
+            var job = _jobService.Find(id);
+            return job != null ? Helper.ComposeResponse(HttpStatusCode.OK, job) : Helper.ComposeResponse(HttpStatusCode.NotFound, Constants.Job.JobDoesNotExists);
         }
 
         /// <summary>
@@ -52,9 +53,9 @@ namespace BaseCode.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [ActionName("list")]
-        public HttpResponseMessage GetStudentList([FromQuery] StudentSearchViewModel searchModel)
+        public HttpResponseMessage GetJobList([FromQuery] JobSearchViewModel searchModel)
         {
-            var responseData = _studentService.FindStudents(searchModel);
+            var responseData = _jobService.FindJobs(searchModel);
             return Helper.ComposeResponse(HttpStatusCode.OK, responseData);
         }
 
@@ -65,14 +66,15 @@ namespace BaseCode.API.Controllers
         /// <returns></returns>
         [HttpPost]
         [ActionName("add")]
-        public HttpResponseMessage PostStudent(StudentViewModel studentModel)
+        [AllowAnonymous]
+        public HttpResponseMessage PostJob(JobViewModel jobModel)
         {
             if (!ModelState.IsValid) return Helper.ComposeResponse(HttpStatusCode.BadRequest, Helper.GetModelStateErrors(ModelState));
 
             try
             {
-                var student = _mapper.Map<Student>(studentModel);
-                var validationErrors = new StudentHandler(_studentService).CanAdd(student);
+                var job = _mapper.Map<Job>(jobModel);
+                var validationErrors = new JobHandler(_jobService).CanAdd(job);
                 var validationResults = validationErrors as IList<ValidationResult> ?? validationErrors.ToList();
 
                 if (validationResults.Any())
@@ -83,14 +85,14 @@ namespace BaseCode.API.Controllers
                 if (ModelState.IsValid)
                 {
                     var claimsIdentity = User.Identity as ClaimsIdentity;
-                    if (claimsIdentity != null)
+                    /*if (claimsIdentity != null)
                     {
-                        student.CreatedBy = claimsIdentity.Name;
-                        student.CreatedDate = DateTime.Now;
-                    }
+                        job.CreatedBy = claimsIdentity.Name;
+                        job.CreatedDate = DateTime.Now;
+                    }*/
 
-                    _studentService.Create(student);
-                    return Helper.ComposeResponse(HttpStatusCode.OK, Constants.Student.StudentSuccessAdd);
+                    _jobService.Create(job);
+                    return Helper.ComposeResponse(HttpStatusCode.OK, Constants.Job.JobSuccessAdd);
                 }
             }
             catch (Exception ex)
@@ -107,14 +109,15 @@ namespace BaseCode.API.Controllers
         /// <param name="studentModel">Contains Student properties</param>
         /// <returns></returns>
         [HttpPut]
-        [ActionName("edit")]        
-        public HttpResponseMessage PutStudent(StudentViewModel studentModel)
+        [ActionName("edit")]
+        [AllowAnonymous]
+        public HttpResponseMessage PutJob(JobViewModel jobModel)
         {
             if (!ModelState.IsValid) return Helper.ComposeResponse(HttpStatusCode.BadRequest, Helper.GetModelStateErrors(ModelState));
             try
             {
-                var student = _mapper.Map<Student>(studentModel);
-                var validationErrors = new StudentHandler(_studentService).CanUpdate(student);
+                var job = _mapper.Map<Job>(jobModel);
+                var validationErrors = new JobHandler(_jobService).CanUpdate(job);
                 var validationResults = validationErrors as IList<ValidationResult> ?? validationErrors.ToList();
 
                 if (validationResults.Any())
@@ -127,12 +130,12 @@ namespace BaseCode.API.Controllers
                     var claimsIdentity = User.Identity as ClaimsIdentity;
                     if (claimsIdentity != null)
                     {
-                        student.ModifiedBy = claimsIdentity.Name;
-                        student.ModifiedDate = DateTime.Now;
+                        job.ModifiedBy = claimsIdentity.Name;
+                        job.ModifiedDate = DateTime.Now;
                     }
 
-                    _studentService.Update(student);
-                    return Helper.ComposeResponse(HttpStatusCode.OK, Constants.Student.StudentSuccessEdit);
+                    _jobService.Update(job);
+                    return Helper.ComposeResponse(HttpStatusCode.OK, Constants.Job.JobSuccessEdit);
                 }
             }
             catch (Exception ex)
@@ -150,11 +153,12 @@ namespace BaseCode.API.Controllers
         /// <returns></returns>
         [HttpDelete]
         [ActionName("delete")]
-        public HttpResponseMessage DeleteStudent(int id)
+        [AllowAnonymous]
+        public HttpResponseMessage DeleteJob(int id)
         {
             try
             {
-                var validationErrors = new StudentHandler(_studentService).CanDelete(id);
+                var validationErrors = new JobHandler(_jobService).CanDelete(id);
 
                 var validationResults = validationErrors as IList<ValidationResult> ?? validationErrors.ToList();
                 if (validationResults.Any())
@@ -164,8 +168,8 @@ namespace BaseCode.API.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    _studentService.DeleteById(id);
-                    return Helper.ComposeResponse(HttpStatusCode.OK, Constants.Student.StudentSuccessDelete);
+                    _jobService.DeleteById(id);
+                    return Helper.ComposeResponse(HttpStatusCode.OK, Constants.Job.JobSuccessDelete);
                 }
             }
             catch (Exception ex)

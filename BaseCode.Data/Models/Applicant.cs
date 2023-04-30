@@ -59,8 +59,8 @@ namespace BaseCode.Data.Models
         public ICollection<Skill> Skill { get; set; }
         //
         public ICollection<CollegeEducation> College { get; set; }
-        //
-        public HighSchoolEducation HighSchool { get; set; }
+        //     
+        public HighSchoolEducation HighSchool { get; set; }   
         //
         public ICollection<Experience> WorkExperience { get; set; }
         //
@@ -71,7 +71,9 @@ namespace BaseCode.Data.Models
         [Column("Status", TypeName = "varchar(20)")]
         [Required]
         public string Status { get; set; } = "To View";
-        public string Remarks { get; set; } 
+        public string Remarks { get; set; }
+        [Required] 
+        public string JobRole { get; set; }
 
     }
 }

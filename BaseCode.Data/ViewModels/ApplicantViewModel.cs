@@ -68,7 +68,7 @@ namespace BaseCode.Data.ViewModels
         public ICollection<CollegeEducation> College { get; set; }
 
         [JsonProperty("applicant_highschool")] 
-        public HighSchoolEducation HighSchool { get; set; }
+        public virtual HighSchoolEducation HighSchool { get; set; }
 
         [JsonProperty("applicant_experience")] 
         public ICollection<Experience> Experience { get; set; }
@@ -80,5 +80,12 @@ namespace BaseCode.Data.ViewModels
         [JsonProperty("applicant_status")]
         [Required]
         public string Status { get; set; }
+        //
+        [JsonProperty("applicant_remarks")]
+        public string Remarks { get; set; }
+        //
+        [JsonProperty("applicant_job_role")]
+        [Required]
+        public string JobRole { get; set; }
     }
 }

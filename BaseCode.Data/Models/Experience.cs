@@ -42,14 +42,14 @@ namespace BaseCode.Data.Models
         public bool CurrentlyWorking { get; set; }
         //
         [Column("TimeStarted", TypeName = "varchar(100)")]
-        public DateTime TimeStarted{ get; set; }
+        public DateTime? TimeStarted{ get; set; }
         //
         [Column("TimeEnded", TypeName = "varchar(100)")]
-        public DateTime TimeEnded { get; set; }
+        public DateTime? TimeEnded { get; set; }
         //
         public int ApplicantId { get; set; } //Foreign key
         [ForeignKey("ApplicantId")]
         [JsonIgnore]
-        public Applicant Applicant { get; set; }
+        public virtual Applicant Applicant { get; set; }
     }
 }

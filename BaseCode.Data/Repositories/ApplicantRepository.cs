@@ -43,7 +43,7 @@ namespace BaseCode.Data.Repositories
                             (string.IsNullOrEmpty(searchModel.ApplicantCountry) || x.Country.Contains(searchModel.ApplicantCountry)) &&
                             (string.IsNullOrEmpty(searchModel.ApplicantEmail) || x.Email.Contains(searchModel.ApplicantEmail)) &&
                             (string.IsNullOrEmpty(searchModel.ApplicantPhone) || x.Phone.Contains(searchModel.ApplicantPhone)) &&
-                            (string.IsNullOrEmpty(searchModel.ApplicantCV) || x.CVFileName.Contains(searchModel.ApplicantCV)) && //Watchout
+                            (string.IsNullOrEmpty(searchModel.ApplicantCV) || x.CVFile.ToString().Contains(searchModel.ApplicantCV)) && //Watchout
                             (string.IsNullOrEmpty(searchModel.ApplicantSkill) || x.Skill.ToString().Contains(searchModel.ApplicantSkill)) &&
                             (string.IsNullOrEmpty(searchModel.ApplicantCollege) || x.College.ToString().Contains(searchModel.ApplicantCollege)) &&
                             (string.IsNullOrEmpty(searchModel.ApplicantHighSchool) || x.HighSchool.ToString().Contains(searchModel.ApplicantHighSchool)) &&
@@ -64,11 +64,13 @@ namespace BaseCode.Data.Repositories
                     id = applicant.ApplicantId,
                     firstname = applicant.FirstName,
                     lastname = applicant.LastName,
-                 //   year = applicant.EnrollYear,
+                    street = applicant.Street,
                     city = applicant.City,
                     country = applicant.Country,
-                   // section = applicant.Class,
-                    email = applicant.Email
+                   
+                    email = applicant.Email,
+                    status = applicant.Status,
+                    jobrole = applicant.JobRole
                 })
                 .ToList();
 
@@ -123,25 +125,25 @@ namespace BaseCode.Data.Repositories
         {
             return GetDbSet<Applicant>().Any(x => x.FirstName.Equals(firstname, StringComparison.OrdinalIgnoreCase) && x.LastName.Equals(lastname, StringComparison.OrdinalIgnoreCase));
         }
-
+        
         public string GetSortKey(string sortBy)
         {
             string sortKey;
-
+            
             switch (sortBy)
             {
-                case (Constants.Student.StudentHeaderId):
-                    sortKey = "StudentID";
+                case (Constants.Applicant.ApplicantHeaderId):
+                    sortKey = "ApplicantID";
                     break;
 
-                case (Constants.Student.StudentHeaderName):
+                case (Constants.Applicant.ApplicantHeaderFirstName):
                     sortKey = "Name";
                     break;
 
-                case (Constants.Student.StudentHeaderEmail):
+                case (Constants.Applicant.ApplicantHeaderEmail):
                     sortKey = "Email";
                     break;
-
+/*
                 case (Constants.Student.StudentHeaderClass):
                     sortKey = "Class";
                     break;
@@ -157,9 +159,9 @@ namespace BaseCode.Data.Repositories
                 case (Constants.Student.StudentHeaderCountry):
                     sortKey = "Country";
                     break;
-
+*/
                 default:
-                    sortKey = "StudentID";
+                    sortKey = "ApplicantID";
                     break;
             }
 
