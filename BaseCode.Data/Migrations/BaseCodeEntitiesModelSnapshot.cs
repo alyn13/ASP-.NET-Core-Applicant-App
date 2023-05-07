@@ -30,6 +30,9 @@ namespace BaseCode.Data.Migrations
                         .HasColumnName("Barangay")
                         .HasColumnType("varchar(200)");
 
+                    b.Property<string>("CVFileLocation")
+                        .IsRequired();
+
                     b.Property<string>("CVFileName")
                         .IsRequired()
                         .HasColumnName("CVFileName")

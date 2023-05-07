@@ -53,7 +53,8 @@ namespace BaseCode.Data.Repositories
                             (string.IsNullOrEmpty(searchModel.ApplicantCountry) || x.Country.Contains(searchModel.ApplicantCountry)) &&
                             (string.IsNullOrEmpty(searchModel.ApplicantEmail) || x.Email.Contains(searchModel.ApplicantEmail)) &&
                             (string.IsNullOrEmpty(searchModel.ApplicantPhone) || x.Phone.Contains(searchModel.ApplicantPhone)) &&
-                            (string.IsNullOrEmpty(searchModel.ApplicantCVFileName) || x.CVFileName.Contains(searchModel.ApplicantCVFileName))&&
+                            (string.IsNullOrEmpty(searchModel.ApplicantCVFileName) || x.CVFileName.Contains(searchModel.ApplicantCVFileName)) && //Watchout /might change to url
+                            (string.IsNullOrEmpty(searchModel.ApplicantCVFileLocation) || x.CVFileLocation.Contains(searchModel.ApplicantCVFileLocation)) && 
                             (string.IsNullOrEmpty(searchModel.ApplicantSkill) || x.Skill.ToString().Contains(searchModel.ApplicantSkill)) &&
                             //(string.IsNullOrEmpty(searchModel.ApplicantCollege) || x.College. .Contains(searchModel.ApplicantCollege)) &&
                             (string.IsNullOrEmpty(searchModel.ApplicantHighSchool) || x.HighSchool.HighSchoolName.Contains(searchModel.ApplicantHighSchool)) &&
@@ -62,7 +63,7 @@ namespace BaseCode.Data.Repositories
                             (string.IsNullOrEmpty(searchModel.ApplicantStatus) || x.Status.Contains(searchModel.ApplicantStatus)) &&
                             (string.IsNullOrEmpty(searchModel.ApplicantPosition) || x.JobId.ToString().Contains(searchModel.ApplicantPosition)))
                 .OrderByPropertyName(sortKey, sortDir);
-            
+
             if (searchModel.Page == 0)
                 searchModel.Page = 1;
             var totalCount = applicants.Count();
@@ -84,8 +85,6 @@ namespace BaseCode.Data.Repositories
                     jobrole = applicant.JobId
                 })
                 .ToList();
-
-            
 
             var pagination = new
             {
