@@ -44,11 +44,6 @@ namespace BaseCode.Data.ViewModels
         //
         [JsonProperty("applicantCVFileName")]
         public string ApplicantCVFileName { get; set; }
-        [JsonProperty("applicantCVFileLocation")]
-        public string ApplicantCVFileLocation { get; set; }
-
-        //[JsonProperty("applicantWebsite")]
-        // public string ApplicantWebsite { get; set; }
 
         [JsonProperty("applicantSkill")]
         public string ApplicantSkill { get; set; }

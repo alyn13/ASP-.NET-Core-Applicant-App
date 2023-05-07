@@ -30,20 +30,20 @@ namespace BaseCode.API
                     .ForMember(dest => dest.HighSchool, opt => opt.MapFrom(src => new HighSchoolEducation { HighSchoolName = src.HighSchool.HighSchoolName} ))
                     .ForMember(dest => dest.WorkExperience, opt => opt.MapFrom(src => src.WorkExperience.Select(e => new Experience { Position = e.Position })))*/
 
-                cfg.CreateMap<Applicant, ApplicantViewModel>()
-                   .ForMember(dest => dest.Website, opt => opt.MapFrom(src => src.Website.Select(w => new WebsiteViewModel { WebsiteUrl = w.WebsiteUrl })))
-                   .ForMember(dest => dest.Skill, opt => opt.MapFrom(src => src.Skill.Select(s => s.SkillName)))
-                   .ForMember(dest => dest.College, opt => opt.MapFrom(src => src.College.Select(c => new CollegeViewModel { CollegeName = c.CollegeName, Degree = c.Degree, YearStarted = c.YearStarted, YearEnded = c.YearEnded })))
-                   .ForMember(dest => dest.WorkExperience, opt => opt.MapFrom(src => src.WorkExperience.Select(e => new ExperienceViewModel { Position = e.Position })))
-                   .ForMember(dest => dest.HighSchool, opt => opt.MapFrom(src => new HighSchoolViewModel { HighSchoolName = src.HighSchool.HighSchoolName }));
+                cfg.CreateMap<Applicant, ApplicantViewModel>();
+                /*.ForMember(dest => dest.Website, opt => opt.MapFrom(src => src.Website.Select(w => new WebsiteViewModel { WebsiteUrl = w.WebsiteUrl })))
+                .ForMember(dest => dest.Skill, opt => opt.MapFrom(src => src.Skill.Select(s => s.SkillName)))
+                .ForMember(dest => dest.College, opt => opt.MapFrom(src => src.College.Select(c => new CollegeViewModel { CollegeName = c.CollegeName, Degree = c.Degree, YearStarted = c.YearStarted, YearEnded = c.YearEnded })))
+                .ForMember(dest => dest.WorkExperience, opt => opt.MapFrom(src => src.WorkExperience.Select(e => new ExperienceViewModel { Position = e.Position })))
+                .ForMember(dest => dest.HighSchool, opt => opt.MapFrom(src => new HighSchoolViewModel { HighSchoolName = src.HighSchool.HighSchoolName }));*/
 
-                cfg.CreateMap<ApplicantViewModel, Applicant>()
-                   .ForMember(dest => dest.Website, opt => opt.MapFrom(src => src.Website.Select(w => new Website { WebsiteUrl = w.WebsiteUrl })))
+                cfg.CreateMap<ApplicantViewModel, Applicant>();
+                   /*.ForMember(dest => dest.Website, opt => opt.MapFrom(src => src.Website.Select(w => new Website { WebsiteUrl = w.WebsiteUrl })))
                    .ForMember(dest => dest.Skill, opt => opt.MapFrom(src => src.Skill.Select(s => new Skill { SkillName = s })))
                    .ForMember(dest => dest.College, opt => opt.MapFrom(src => src.College.Select(c => new CollegeEducation { CollegeName = c.CollegeName })))
                    .ForMember(dest => dest.WorkExperience, opt => opt.MapFrom(src => src.WorkExperience.Select(e => new Experience { Position = e.Position })))
-                   .ForMember(dest => dest.HighSchool, opt => opt.MapFrom(src => new HighSchoolEducation { HighSchoolName = src.HighSchool.HighSchoolName }));
-                ;
+                   .ForMember(dest => dest.HighSchool, opt => opt.MapFrom(src => new HighSchoolEducation { HighSchoolName = src.HighSchool.HighSchoolName }));*/
+                
                
                 cfg.CreateMap<Website, WebsiteViewModel>();
                 cfg.CreateMap<WebsiteViewModel, Website>();

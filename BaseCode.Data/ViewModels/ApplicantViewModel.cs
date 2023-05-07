@@ -57,9 +57,6 @@ namespace BaseCode.Data.ViewModels
         [JsonProperty("applicant_CVfile_name")]
         [Required]
         public string CVFileName { get; set; }
-        [Required]
-        [JsonProperty("applicant_CVfile_location")]
-        public string CVFileLocation { get; set; }
 
         [JsonProperty("applicant_website")]
         public ICollection<WebsiteViewModel> Website { get; set; } = new List<WebsiteViewModel>();

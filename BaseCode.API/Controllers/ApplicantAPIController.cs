@@ -21,7 +21,8 @@ using BaseCode.Domain.Services;
 
 namespace BaseCode.API.Controllers
 {
-    [Authorize(AuthenticationSchemes = Constants.Common.Bearer, Roles = Constants.Roles.Admin)]
+    [AllowAnonymous]
+    //[Authorize(AuthenticationSchemes = Constants.Common.Bearer, Roles = Constants.Roles.Admin)]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class ApplicantAPIController : ControllerBase
@@ -75,7 +76,7 @@ namespace BaseCode.API.Controllers
         {
 
             var temp = 0;
-            try { if (!ModelState.IsValid) return Helper.ComposeResponse(HttpStatusCode.BadRequest, Helper.GetModelStateErrors(ModelState)); }
+            /*try { if (!ModelState.IsValid) return Helper.ComposeResponse(HttpStatusCode.BadRequest, Helper.GetModelStateErrors(ModelState)); }
             catch (Exception ex)
             {
                 var innerExceptionMessage = ex.InnerException?.Message;
@@ -84,9 +85,9 @@ namespace BaseCode.API.Controllers
                 Console.WriteLine("An error occurred while updating the entries.");
                 Console.WriteLine("Inner exception message: " + innerExceptionMessage);
                 Console.WriteLine("Inner exception stack trace: " + innerExceptionStackTrace);
-            }
+            }*/
 
-            // if (!ModelState.IsValid) return Helper.ComposeResponse(HttpStatusCode.BadRequest, Helper.GetModelStateErrors(ModelState));
+             if (!ModelState.IsValid) return Helper.ComposeResponse(HttpStatusCode.BadRequest, Helper.GetModelStateErrors(ModelState));
             temp = 1;
             try
             {
