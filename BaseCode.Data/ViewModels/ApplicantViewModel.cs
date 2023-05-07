@@ -54,24 +54,27 @@ namespace BaseCode.Data.ViewModels
         [Required]
         public string Phone { get; set; }
         //
-        [JsonProperty("applicant_CVfile")]
-          [Required]
-        public CVFile CVFile { get; set; }
+        [JsonProperty("applicant_CVfile_name")]
+        [Required]
+        public string CVFileName { get; set; }
+        [Required]
+        [JsonProperty("applicant_CVfile_location")]
+        public string CVFileLocation { get; set; }
 
         [JsonProperty("applicant_website")]
-        public ICollection<Website> Website { get; set; }
+        public ICollection<WebsiteViewModel> Website { get; set; } = new List<WebsiteViewModel>();
 
         [JsonProperty("applicant_skill")] 
-        public ICollection<Skill> Skill { get; set; }
+        public List<string> Skill { get; set; } = new List<string>();
 
         [JsonProperty("applicant_college")] 
-        public ICollection<CollegeEducation> College { get; set; }
+        public ICollection<CollegeViewModel> College { get; set; } = new List<CollegeViewModel>();
 
         [JsonProperty("applicant_highschool")] 
-        public virtual HighSchoolEducation HighSchool { get; set; }
+        public HighSchoolViewModel HighSchool { get; set; } = new HighSchoolViewModel();
 
         [JsonProperty("applicant_experience")] 
-        public ICollection<Experience> Experience { get; set; }
+        public ICollection<ExperienceViewModel> WorkExperience { get; set; } = new List<ExperienceViewModel>();
 
         [JsonProperty("applicant_submissiondate")]
         [Required]
@@ -86,6 +89,6 @@ namespace BaseCode.Data.ViewModels
         //
         [JsonProperty("applicant_job_role")]
         [Required]
-        public string JobRole { get; set; }
+        public int JobId { get; set; }
     }
 }

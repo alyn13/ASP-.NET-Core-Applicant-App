@@ -194,6 +194,40 @@ namespace BaseCode.Data
             public const string ApplicantSuccessDelete = "Applicant is deleted successfully.";
         }
 
+        public class Website
+        {
+            // Sort Keys
+            public const string WebsiteHeaderId = "website_id";
+            public const string WebsiteHeaderUrl = "website_url";
+
+            // Messages
+            public const string WebsiteUrlExists = "Website url already exists";
+            public const string WebsiteEntryInvalid = "Website entry is not valid!";
+            public const string WebsiteNotExist = "Website does not exist.";
+            public const string WebsiteDoesNotExists = "Website does not exist.";
+            public const string WebsiteSuccessAdd = "Website added successfully.";
+            public const string WebsiteSuccessEdit = "Website is updated successfully.";
+            public const string WebsiteSuccessDelete = "Website is deleted successfully.";
+        }
+
+        public class HighSchool
+        {
+            // Sort Keys
+            public const string HighSchoolHeaderId = "highschool_id";
+            public const string HighSchoolHeaderName = "highschool_name";
+            public const string HighSchoolHeaderYearStarted = "highschool_yearstarted";
+            public const string HighSchoolHeaderYearEnded = "highschool_yearended";      
+
+            // Messages
+            public const string HighSchoolNameExists = "HighSchool name already exists";
+            public const string HighSchoolEntryInvalid = "HighSchool entry is not valid!";
+            public const string HighSchoolNotExist = "HighSchool does not exist.";
+            public const string HighSchoolDoesNotExists = "HighSchool does not exist.";
+            public const string HighSchoolSuccessAdd = "HighSchool added successfully.";
+            public const string HighSchoolSuccessEdit = "HighSchool is updated successfully.";
+            public const string HighSchoolSuccessDelete = "HighSchool is deleted successfully.";
+        }
+
         public class Job
         {
             // Sort Keys

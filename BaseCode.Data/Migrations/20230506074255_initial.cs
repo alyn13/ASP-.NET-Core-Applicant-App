@@ -69,6 +69,27 @@ namespace BaseCode.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Job",
+                columns: table => new
+                {
+                    JobId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    JobName = table.Column<string>(type: "varchar(100)", nullable: true),
+                    JobShortDescription = table.Column<string>(nullable: true),
+                    JobDescription = table.Column<string>(nullable: true),
+                    JobResponsibilities = table.Column<string>(nullable: true),
+                    JobQualifications = table.Column<string>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Job", x => x.JobId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RefreshToken",
                 columns: table => new
                 {
@@ -213,7 +234,41 @@ namespace BaseCode.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CollegeEducation",
+                name: "Applicant",
+                columns: table => new
+                {
+                    ApplicantId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FirstName = table.Column<string>(type: "varchar(100)", nullable: false),
+                    LastName = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Street = table.Column<string>(type: "varchar(300)", nullable: false),
+                    Barangay = table.Column<string>(type: "varchar(200)", nullable: false),
+                    City = table.Column<string>(type: "varchar(200)", nullable: false),
+                    Province = table.Column<string>(type: "varchar(200)", nullable: false),
+                    ZipCode = table.Column<int>(nullable: false),
+                    Country = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Email = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Phone = table.Column<string>(type: "varchar(11)", nullable: false),
+                    CVFileName = table.Column<string>(type: "varchar(100)", nullable: false),
+                    CVFileLocation = table.Column<string>(nullable: false),
+                    SubmissionDate = table.Column<DateTime>(nullable: false),
+                    Status = table.Column<string>(type: "varchar(20)", nullable: false),
+                    Remarks = table.Column<string>(nullable: true),
+                    JobId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Applicant", x => x.ApplicantId);
+                    table.ForeignKey(
+                        name: "FK_Applicant_Job_JobId",
+                        column: x => x.JobId,
+                        principalTable: "Job",
+                        principalColumn: "JobId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "College",
                 columns: table => new
                 {
                     CollegeEducId = table.Column<int>(nullable: false)
@@ -222,27 +277,24 @@ namespace BaseCode.Data.Migrations
                     Degree = table.Column<string>(nullable: true),
                     YearStarted = table.Column<int>(nullable: false),
                     YearEnded = table.Column<int>(nullable: false),
-                    ApplicantId = table.Column<int>(nullable: false)
+                    ApplicantId = table.Column<int>(nullable: false),
+                    CollegeEducationCollegeEducId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CollegeEducation", x => x.CollegeEducId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CVFile",
-                columns: table => new
-                {
-                    CVFileID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CVFileName = table.Column<string>(type: "varchar(100)", nullable: true),
-                    CVFileLocation = table.Column<string>(nullable: true),
-                    CVFileType = table.Column<string>(nullable: true),
-                    ApplicantId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CVFile", x => x.CVFileID);
+                    table.PrimaryKey("PK_College", x => x.CollegeEducId);
+                    table.ForeignKey(
+                        name: "FK_College_Applicant_ApplicantId",
+                        column: x => x.ApplicantId,
+                        principalTable: "Applicant",
+                        principalColumn: "ApplicantId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_College_College_CollegeEducationCollegeEducId",
+                        column: x => x.CollegeEducationCollegeEducId,
+                        principalTable: "College",
+                        principalColumn: "CollegeEducId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -263,15 +315,28 @@ namespace BaseCode.Data.Migrations
                     CurrentlyWorking = table.Column<string>(type: "varchar(100)", nullable: false),
                     TimeStarted = table.Column<string>(type: "varchar(100)", nullable: true),
                     TimeEnded = table.Column<string>(type: "varchar(100)", nullable: true),
-                    ApplicantId = table.Column<int>(nullable: false)
+                    ApplicantId = table.Column<int>(nullable: false),
+                    ExperienceId1 = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Experience", x => x.ExperienceId);
+                    table.ForeignKey(
+                        name: "FK_Experience_Applicant_ApplicantId",
+                        column: x => x.ApplicantId,
+                        principalTable: "Applicant",
+                        principalColumn: "ApplicantId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Experience_Experience_ExperienceId1",
+                        column: x => x.ExperienceId1,
+                        principalTable: "Experience",
+                        principalColumn: "ExperienceId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "HighSchoolEducation",
+                name: "HighSchool",
                 columns: table => new
                 {
                     HighSchoolEducId = table.Column<int>(nullable: false)
@@ -279,42 +344,22 @@ namespace BaseCode.Data.Migrations
                     HighSchoolName = table.Column<string>(nullable: true),
                     YearStarted = table.Column<int>(nullable: false),
                     YearEnded = table.Column<int>(nullable: false),
-                    ApplicantId = table.Column<int>(nullable: false)
+                    ApplicantId = table.Column<int>(nullable: false),
+                    HighSchoolEducId1 = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HighSchoolEducation", x => x.HighSchoolEducId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Applicant",
-                columns: table => new
-                {
-                    ApplicantId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FirstName = table.Column<string>(type: "varchar(100)", nullable: false),
-                    LastName = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Street = table.Column<string>(type: "varchar(300)", nullable: false),
-                    Barangay = table.Column<string>(type: "varchar(200)", nullable: false),
-                    City = table.Column<string>(type: "varchar(200)", nullable: false),
-                    Province = table.Column<string>(type: "varchar(200)", nullable: false),
-                    ZipCode = table.Column<int>(nullable: false),
-                    Country = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Email = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Phone = table.Column<string>(type: "varchar(11)", nullable: false),
-                    HighSchoolEducId = table.Column<int>(nullable: false),
-                    SubmissionDate = table.Column<DateTime>(nullable: false),
-                    Status = table.Column<string>(type: "varchar(20)", nullable: false),
-                    Remarks = table.Column<string>(nullable: true),
-                    JobRole = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Applicant", x => x.ApplicantId);
+                    table.PrimaryKey("PK_HighSchool", x => x.HighSchoolEducId);
                     table.ForeignKey(
-                        name: "FK_Applicant_HighSchoolEducation_HighSchoolEducId",
-                        column: x => x.HighSchoolEducId,
-                        principalTable: "HighSchoolEducation",
+                        name: "FK_HighSchool_Applicant_ApplicantId",
+                        column: x => x.ApplicantId,
+                        principalTable: "Applicant",
+                        principalColumn: "ApplicantId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_HighSchool_HighSchool_HighSchoolEducId1",
+                        column: x => x.HighSchoolEducId1,
+                        principalTable: "HighSchool",
                         principalColumn: "HighSchoolEducId",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -326,7 +371,8 @@ namespace BaseCode.Data.Migrations
                     SkillId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     SkillName = table.Column<string>(nullable: true),
-                    ApplicantId = table.Column<int>(nullable: true)
+                    ApplicantId = table.Column<int>(nullable: false),
+                    SkillId1 = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -337,6 +383,12 @@ namespace BaseCode.Data.Migrations
                         principalTable: "Applicant",
                         principalColumn: "ApplicantId",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Skill_Skill_SkillId1",
+                        column: x => x.SkillId1,
+                        principalTable: "Skill",
+                        principalColumn: "SkillId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -346,7 +398,8 @@ namespace BaseCode.Data.Migrations
                     WebsiteId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     WebsiteUrl = table.Column<string>(nullable: true),
-                    ApplicantId = table.Column<int>(nullable: true)
+                    ApplicantId = table.Column<int>(nullable: false),
+                    WebsiteId1 = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -357,12 +410,18 @@ namespace BaseCode.Data.Migrations
                         principalTable: "Applicant",
                         principalColumn: "ApplicantId",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Website_Website_WebsiteId1",
+                        column: x => x.WebsiteId1,
+                        principalTable: "Website",
+                        principalColumn: "WebsiteId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Applicant_HighSchoolEducId",
+                name: "IX_Applicant_JobId",
                 table: "Applicant",
-                column: "HighSchoolEducId");
+                column: "JobId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -404,15 +463,14 @@ namespace BaseCode.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CollegeEducation_ApplicantId",
-                table: "CollegeEducation",
+                name: "IX_College_ApplicantId",
+                table: "College",
                 column: "ApplicantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CVFile_ApplicantId",
-                table: "CVFile",
-                column: "ApplicantId",
-                unique: true);
+                name: "IX_College_CollegeEducationCollegeEducId",
+                table: "College",
+                column: "CollegeEducationCollegeEducId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Experience_ApplicantId",
@@ -420,9 +478,20 @@ namespace BaseCode.Data.Migrations
                 column: "ApplicantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HighSchoolEducation_ApplicantId",
-                table: "HighSchoolEducation",
-                column: "ApplicantId");
+                name: "IX_Experience_ExperienceId1",
+                table: "Experience",
+                column: "ExperienceId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HighSchool_ApplicantId",
+                table: "HighSchool",
+                column: "ApplicantId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HighSchool_HighSchoolEducId1",
+                table: "HighSchool",
+                column: "HighSchoolEducId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Skill_ApplicantId",
@@ -430,49 +499,23 @@ namespace BaseCode.Data.Migrations
                 column: "ApplicantId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Skill_SkillId1",
+                table: "Skill",
+                column: "SkillId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Website_ApplicantId",
                 table: "Website",
                 column: "ApplicantId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_CollegeEducation_Applicant_ApplicantId",
-                table: "CollegeEducation",
-                column: "ApplicantId",
-                principalTable: "Applicant",
-                principalColumn: "ApplicantId",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_CVFile_Applicant_ApplicantId",
-                table: "CVFile",
-                column: "ApplicantId",
-                principalTable: "Applicant",
-                principalColumn: "ApplicantId",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Experience_Applicant_ApplicantId",
-                table: "Experience",
-                column: "ApplicantId",
-                principalTable: "Applicant",
-                principalColumn: "ApplicantId",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_HighSchoolEducation_Applicant_ApplicantId",
-                table: "HighSchoolEducation",
-                column: "ApplicantId",
-                principalTable: "Applicant",
-                principalColumn: "ApplicantId",
-                onDelete: ReferentialAction.Restrict);
+            migrationBuilder.CreateIndex(
+                name: "IX_Website_WebsiteId1",
+                table: "Website",
+                column: "WebsiteId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Applicant_HighSchoolEducation_HighSchoolEducId",
-                table: "Applicant");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -492,13 +535,13 @@ namespace BaseCode.Data.Migrations
                 name: "Client");
 
             migrationBuilder.DropTable(
-                name: "CollegeEducation");
-
-            migrationBuilder.DropTable(
-                name: "CVFile");
+                name: "College");
 
             migrationBuilder.DropTable(
                 name: "Experience");
+
+            migrationBuilder.DropTable(
+                name: "HighSchool");
 
             migrationBuilder.DropTable(
                 name: "RefreshToken");
@@ -519,10 +562,10 @@ namespace BaseCode.Data.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "HighSchoolEducation");
+                name: "Applicant");
 
             migrationBuilder.DropTable(
-                name: "Applicant");
+                name: "Job");
         }
     }
 }

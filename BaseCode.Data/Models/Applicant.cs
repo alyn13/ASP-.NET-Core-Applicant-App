@@ -51,18 +51,21 @@ namespace BaseCode.Data.Models
         [Required]
         public string Phone { get; set; }
         //
+        [Column("CVFileName", TypeName = "varchar(100)")]
         [Required]
-        public CVFile CVFile { get; set; }
-      //
-        public ICollection<Website> Website { get; set; }
+        public string CVFileName { get; set; }
+        [Required]
+        public string CVFileLocation { get; set; }
         //
-        public ICollection<Skill> Skill { get; set; }
+        public virtual ICollection<Website> Website { get; set; }
         //
-        public ICollection<CollegeEducation> College { get; set; }
+        public virtual ICollection<Skill> Skill { get; set; }
+        //
+        public virtual ICollection<CollegeEducation> College { get; set; }
         //     
-        public HighSchoolEducation HighSchool { get; set; }   
+        public virtual HighSchoolEducation HighSchool { get; set; }   
         //
-        public ICollection<Experience> WorkExperience { get; set; }
+        public virtual ICollection<Experience> WorkExperience { get; set; }
         //
         [Column("SubmissionDate")]
         [Required]
@@ -73,7 +76,10 @@ namespace BaseCode.Data.Models
         public string Status { get; set; } = "To View";
         public string Remarks { get; set; }
         [Required] 
-        public string JobRole { get; set; }
+        public int JobId { get; set; }
+        [ForeignKey("JobId")]
+        [JsonIgnore]
+        public virtual Job JobRole { get; set; }
 
     }
 }

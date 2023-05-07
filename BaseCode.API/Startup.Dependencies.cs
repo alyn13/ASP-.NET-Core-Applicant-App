@@ -19,12 +19,16 @@ namespace BaseCode.API
             // Services
             services.AddScoped<IClientService, ClientService>();            
             services.AddScoped<IApplicantService, ApplicantService>();
+            services.AddScoped<IWebsiteService, WebsiteService>();
+            services.AddScoped<IHighSchoolService, HighSchoolService>();
             services.AddScoped<IJobService, JobService>();
             services.AddScoped<IUserService, UserService>();
 
             // Repositories
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IApplicantRepository, ApplicantRepository>();
+            services.AddScoped<IWebsiteRepository, WebsiteRepository>();
+            services.AddScoped<IHighSchoolRepository, HighSchoolRepository>();
             services.AddScoped<IJobRepository, JobRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 

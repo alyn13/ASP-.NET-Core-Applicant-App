@@ -10,28 +10,28 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
+using static BaseCode.Data.Constants;
 using Constants = BaseCode.Data.Constants;
-
-using BaseCode.Domain.Services;
-
+using Exception = System.Exception;
 
 namespace BaseCode.API.Controllers
 {
     [Authorize(AuthenticationSchemes = Constants.Common.Bearer, Roles = Constants.Roles.Admin)]
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class ApplicantAPIController : ControllerBase
+    public class HighSchoolAPIController : ControllerBase
     {
-        private readonly IApplicantService _applicantService;
+        private readonly IHighSchoolService _highschoolService;
         private readonly IMapper _mapper;
 
-        public ApplicantAPIController(IApplicantService applicantService, IMapper mapper)
+        public HighSchoolAPIController(IHighSchoolService highschoolService, IMapper mapper)
         {
-            _applicantService = applicantService;
+            _highschoolService = highschoolService;
             _mapper = mapper;
         }
 
@@ -41,37 +41,37 @@ namespace BaseCode.API.Controllers
         /// <param name="id">ID of the Applicant record</param>
         /// <returns></returns>
         [HttpGet]
-        [AllowAnonymous] 
-        [ActionName("getApplicant")]
-        public HttpResponseMessage GetApplicant(int id)
+        [AllowAnonymous]
+        [ActionName("getHighSchool")]
+        public HttpResponseMessage GetHighSchool(int id)
         {
-            var applicant = _applicantService.Find(id);
-            return applicant != null ? Helper.ComposeResponse(HttpStatusCode.OK, applicant) : Helper.ComposeResponse(HttpStatusCode.NotFound, Constants.Applicant.ApplicantDoesNotExists);
+            var highschool = _highschoolService.Find(id);
+            return highschool != null ? Helper.ComposeResponse(HttpStatusCode.OK, highschool) : Helper.ComposeResponse(HttpStatusCode.NotFound, HighSchool.HighSchoolDoesNotExists);
         }
 
         /// <summary>
-        ///     This function retrieves a list of Applicant records.
+        ///     This function retrieves a list of HighSchool records.
         /// </summary>
-        /// <param name="searchModel">Search filters for finding Applicant records</param>
+        /// <param name="searchModel">Search filters for finding HighSchool records</param>
         /// <returns></returns>
-        [HttpGet]
+       /* [HttpGet]
         [AllowAnonymous]
         [ActionName("list")]
-        public HttpResponseMessage GetApplicantList([FromQuery] ApplicantSearchViewModel searchModel)
+        public HttpResponseMessage GetApplicantList([FromQuery] HighSchoolSearchViewModel searchModel)
         {
-            var responseData = _applicantService.FindApplicants(searchModel);
+            var responseData = _highschoolService.FindHighSchools(searchModel);
             return Helper.ComposeResponse(HttpStatusCode.OK, responseData);
         }
-
+       */
         /// <summary>
         ///     This function adds a Applicant record.
         /// </summary>
-        /// <param name="applicantModel">Contains Applicant properties</param>
+        /// <param name="highschoolModel">Contains Applicant properties</param>
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ActionName("add")]
-        public HttpResponseMessage PostApplicant(ApplicantViewModel applicantModel)
+        public HttpResponseMessage PostHighSchool(HighSchoolViewModel highschoolModel)
         {
 
             var temp = 0;
@@ -90,10 +90,10 @@ namespace BaseCode.API.Controllers
             temp = 1;
             try
             {
-                var applicant = _mapper.Map<Applicant>(applicantModel);
-                var validationErrors = new ApplicantHandler(_applicantService).CanAdd(applicant);
+                var highschool = _mapper.Map<HighSchoolEducation>(highschoolModel);
+                var validationErrors = new HighSchoolHandler(_highschoolService).CanAdd(highschool);
                 var validationResults = validationErrors as IList<ValidationResult> ?? validationErrors.ToList();
-               
+
                 if (validationResults.Any())
                 {
                     temp = 2;
@@ -103,9 +103,9 @@ namespace BaseCode.API.Controllers
                 if (ModelState.IsValid)
                 {
                     temp = 3;
-                     _applicantService.Create(applicant);
+                    _highschoolService.Create(highschool);
                     Console.WriteLine(temp);
-                    return Helper.ComposeResponse(HttpStatusCode.OK, Constants.Applicant.ApplicantSuccessAdd);
+                    return Helper.ComposeResponse(HttpStatusCode.OK, HighSchool.HighSchoolSuccessAdd);
                 }
             }
             catch (Exception ex)
@@ -120,18 +120,18 @@ namespace BaseCode.API.Controllers
         /// <summary>
         ///     This function updates an Applicant record.
         /// </summary>
-        /// <param name="applicantModel">Contains Applicant properties</param>
+        /// <param name="highschoolModel">Contains Applicant properties</param>
         /// <returns></returns>
         [HttpPut]
         [ActionName("edit")]
         [AllowAnonymous]
-        public HttpResponseMessage PutApplicant(ApplicantViewModel applicantModel)
+        public HttpResponseMessage PutHighSchool(HighSchoolViewModel highschoolModel)
         {
             if (!ModelState.IsValid) return Helper.ComposeResponse(HttpStatusCode.BadRequest, Helper.GetModelStateErrors(ModelState));
             try
             {
-                var applicant = _mapper.Map<Applicant>(applicantModel);
-                var validationErrors = new ApplicantHandler(_applicantService).CanUpdate(applicant);
+                var highschool = _mapper.Map<HighSchoolEducation>(highschoolModel);
+                var validationErrors = new HighSchoolHandler(_highschoolService).CanUpdate(highschool);
                 var validationResults = validationErrors as IList<ValidationResult> ?? validationErrors.ToList();
 
                 if (validationResults.Any())
@@ -148,8 +148,8 @@ namespace BaseCode.API.Controllers
                          student.ModifiedDate = DateTime.Now;
                      }*/
 
-                    _applicantService.Update(applicant);
-                    return Helper.ComposeResponse(HttpStatusCode.OK, Constants.Applicant.ApplicantSuccessEdit);
+                    _highschoolService.Update(highschool);
+                    return Helper.ComposeResponse(HttpStatusCode.OK, HighSchool.HighSchoolSuccessEdit);
                 }
             }
             catch (Exception ex)
@@ -161,18 +161,18 @@ namespace BaseCode.API.Controllers
         }
 
         /// <summary>
-        ///     This function deletes an Applicant record.
+        ///     This function deletes an HighSchool record.
         /// </summary>
-        /// <param name="id">ID of the Applicant record</param>
+        /// <param name="id">ID of the HighSchool record</param>
         /// <returns></returns>
         [HttpDelete]
         [AllowAnonymous] //change later
         [ActionName("delete")]
-        public HttpResponseMessage DeleteApplicant(int id)
+        public HttpResponseMessage DeleteHighSchool(int id)
         {
             try
             {
-                var validationErrors = new ApplicantHandler(_applicantService).CanDelete(id);
+                var validationErrors = new HighSchoolHandler(_highschoolService).CanDelete(id);
 
                 var validationResults = validationErrors as IList<ValidationResult> ?? validationErrors.ToList();
                 if (validationResults.Any())
@@ -182,8 +182,8 @@ namespace BaseCode.API.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    _applicantService.DeleteById(id);
-                    return Helper.ComposeResponse(HttpStatusCode.OK, Constants.Applicant.ApplicantSuccessDelete);
+                    _highschoolService.DeleteById(id);
+                    return Helper.ComposeResponse(HttpStatusCode.OK, HighSchool.HighSchoolSuccessDelete);
                 }
             }
             catch (Exception ex)

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -51,5 +52,7 @@ namespace BaseCode.Data.Models
         [ForeignKey("ApplicantId")]
         [JsonIgnore]
         public virtual Applicant Applicant { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<Experience> WorkExperience { get; set; }
     }
 }

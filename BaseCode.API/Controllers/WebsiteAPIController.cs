@@ -6,6 +6,7 @@ using BaseCode.Data.ViewModels.Common;
 using BaseCode.Domain;
 using BaseCode.Domain.Contracts;
 using BaseCode.Domain.Handlers;
+using BaseCode.Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,24 +15,24 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
+using static BaseCode.Data.Constants;
 using Constants = BaseCode.Data.Constants;
-
-using BaseCode.Domain.Services;
-
+using Exception = System.Exception;
+using Website = BaseCode.Data.Models.Website;
 
 namespace BaseCode.API.Controllers
 {
     [Authorize(AuthenticationSchemes = Constants.Common.Bearer, Roles = Constants.Roles.Admin)]
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class ApplicantAPIController : ControllerBase
+    public class WebsiteAPIController : ControllerBase
     {
-        private readonly IApplicantService _applicantService;
+        private readonly IWebsiteService _websiteService;
         private readonly IMapper _mapper;
 
-        public ApplicantAPIController(IApplicantService applicantService, IMapper mapper)
+        public WebsiteAPIController(IWebsiteService websiteService, IMapper mapper)
         {
-            _applicantService = applicantService;
+            _websiteService = websiteService;
             _mapper = mapper;
         }
 
@@ -41,12 +42,12 @@ namespace BaseCode.API.Controllers
         /// <param name="id">ID of the Applicant record</param>
         /// <returns></returns>
         [HttpGet]
-        [AllowAnonymous] 
-        [ActionName("getApplicant")]
-        public HttpResponseMessage GetApplicant(int id)
+        [AllowAnonymous]
+        [ActionName("getWebsite")]
+        public HttpResponseMessage GetWebsite(int id)
         {
-            var applicant = _applicantService.Find(id);
-            return applicant != null ? Helper.ComposeResponse(HttpStatusCode.OK, applicant) : Helper.ComposeResponse(HttpStatusCode.NotFound, Constants.Applicant.ApplicantDoesNotExists);
+            var website = _websiteService.Find(id);
+            return website != null ? Helper.ComposeResponse(HttpStatusCode.OK, website) : Helper.ComposeResponse(HttpStatusCode.NotFound, Constants.Website.WebsiteDoesNotExists);
         }
 
         /// <summary>
@@ -54,24 +55,24 @@ namespace BaseCode.API.Controllers
         /// </summary>
         /// <param name="searchModel">Search filters for finding Applicant records</param>
         /// <returns></returns>
-        [HttpGet]
+        /*[HttpGet]
         [AllowAnonymous]
         [ActionName("list")]
-        public HttpResponseMessage GetApplicantList([FromQuery] ApplicantSearchViewModel searchModel)
+        public HttpResponseMessage GetWebsiteList([FromQuery] WebsiteSearchViewModel searchModel)
         {
-            var responseData = _applicantService.FindApplicants(searchModel);
+            var responseData = _websiteService.FindWebsitets(searchModel);
             return Helper.ComposeResponse(HttpStatusCode.OK, responseData);
         }
-
+        */
         /// <summary>
         ///     This function adds a Applicant record.
         /// </summary>
-        /// <param name="applicantModel">Contains Applicant properties</param>
+        /// <param name="websiteModel">Contains Applicant properties</param>
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ActionName("add")]
-        public HttpResponseMessage PostApplicant(ApplicantViewModel applicantModel)
+        public HttpResponseMessage PostWebsite(WebsiteViewModel websiteModel)
         {
 
             var temp = 0;
@@ -90,10 +91,10 @@ namespace BaseCode.API.Controllers
             temp = 1;
             try
             {
-                var applicant = _mapper.Map<Applicant>(applicantModel);
-                var validationErrors = new ApplicantHandler(_applicantService).CanAdd(applicant);
+                var website = _mapper.Map<Website>(websiteModel);
+                var validationErrors = new WebsiteHandler(_websiteService).CanAdd(website);
                 var validationResults = validationErrors as IList<ValidationResult> ?? validationErrors.ToList();
-               
+
                 if (validationResults.Any())
                 {
                     temp = 2;
@@ -103,9 +104,9 @@ namespace BaseCode.API.Controllers
                 if (ModelState.IsValid)
                 {
                     temp = 3;
-                     _applicantService.Create(applicant);
+                    _websiteService.Create(website);
                     Console.WriteLine(temp);
-                    return Helper.ComposeResponse(HttpStatusCode.OK, Constants.Applicant.ApplicantSuccessAdd);
+                    return Helper.ComposeResponse(HttpStatusCode.OK, Constants.Website.WebsiteSuccessAdd);
                 }
             }
             catch (Exception ex)
@@ -120,18 +121,18 @@ namespace BaseCode.API.Controllers
         /// <summary>
         ///     This function updates an Applicant record.
         /// </summary>
-        /// <param name="applicantModel">Contains Applicant properties</param>
+        /// <param name="websiteModel">Contains Applicant properties</param>
         /// <returns></returns>
         [HttpPut]
         [ActionName("edit")]
         [AllowAnonymous]
-        public HttpResponseMessage PutApplicant(ApplicantViewModel applicantModel)
+        public HttpResponseMessage PutWebsite(WebsiteViewModel websiteModel)
         {
             if (!ModelState.IsValid) return Helper.ComposeResponse(HttpStatusCode.BadRequest, Helper.GetModelStateErrors(ModelState));
             try
             {
-                var applicant = _mapper.Map<Applicant>(applicantModel);
-                var validationErrors = new ApplicantHandler(_applicantService).CanUpdate(applicant);
+                var website = _mapper.Map<Website>(websiteModel);
+                var validationErrors = new WebsiteHandler(_websiteService).CanUpdate(website);
                 var validationResults = validationErrors as IList<ValidationResult> ?? validationErrors.ToList();
 
                 if (validationResults.Any())
@@ -148,8 +149,8 @@ namespace BaseCode.API.Controllers
                          student.ModifiedDate = DateTime.Now;
                      }*/
 
-                    _applicantService.Update(applicant);
-                    return Helper.ComposeResponse(HttpStatusCode.OK, Constants.Applicant.ApplicantSuccessEdit);
+                    _websiteService.Update(website);
+                    return Helper.ComposeResponse(HttpStatusCode.OK, Constants.Website.WebsiteSuccessEdit);
                 }
             }
             catch (Exception ex)
@@ -161,18 +162,18 @@ namespace BaseCode.API.Controllers
         }
 
         /// <summary>
-        ///     This function deletes an Applicant record.
+        ///     This function deletes an Website record.
         /// </summary>
-        /// <param name="id">ID of the Applicant record</param>
+        /// <param name="id">ID of the Website record</param>
         /// <returns></returns>
         [HttpDelete]
         [AllowAnonymous] //change later
         [ActionName("delete")]
-        public HttpResponseMessage DeleteApplicant(int id)
+        public HttpResponseMessage DeleteWebsite(int id)
         {
             try
             {
-                var validationErrors = new ApplicantHandler(_applicantService).CanDelete(id);
+                var validationErrors = new WebsiteHandler(_websiteService).CanDelete(id);
 
                 var validationResults = validationErrors as IList<ValidationResult> ?? validationErrors.ToList();
                 if (validationResults.Any())
@@ -182,8 +183,8 @@ namespace BaseCode.API.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    _applicantService.DeleteById(id);
-                    return Helper.ComposeResponse(HttpStatusCode.OK, Constants.Applicant.ApplicantSuccessDelete);
+                    _websiteService.DeleteById(id);
+                    return Helper.ComposeResponse(HttpStatusCode.OK, Constants.Website.WebsiteSuccessDelete);
                 }
             }
             catch (Exception ex)
@@ -193,5 +194,6 @@ namespace BaseCode.API.Controllers
 
             return Helper.ComposeResponse(HttpStatusCode.BadRequest, Helper.GetModelStateErrors(ModelState));
         }
+
     }
 }

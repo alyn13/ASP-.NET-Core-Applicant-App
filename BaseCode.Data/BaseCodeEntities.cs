@@ -78,6 +78,11 @@ namespace BaseCode.Data
 
         public virtual DbSet<Applicant> Applicant { get; set; }
         public virtual DbSet<Job> Job { get; set; }
+        public virtual DbSet<Website> Website { get; set; }
+        public virtual DbSet<Skill> Skill { get; set; }
+        public virtual DbSet<CollegeEducation> College { get; set; }
+        public virtual DbSet<HighSchoolEducation> HighSchool { get; set; }
+        public virtual DbSet<Experience> Experience { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Client> Client { get; set; }
         public virtual DbSet<RefreshToken> RefreshToken { get; set; }

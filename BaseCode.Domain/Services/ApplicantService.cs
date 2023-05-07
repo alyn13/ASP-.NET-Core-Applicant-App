@@ -30,6 +30,7 @@ namespace BaseCode.Domain.Services
             if (applicant != null)
             {
                 applicantViewModel = _mapper.Map<ApplicantViewModel>(applicant);
+
             }
 
             return applicantViewModel;

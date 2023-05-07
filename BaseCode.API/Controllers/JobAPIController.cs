@@ -53,6 +53,7 @@ namespace BaseCode.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [ActionName("list")]
+        [AllowAnonymous]
         public HttpResponseMessage GetJobList([FromQuery] JobSearchViewModel searchModel)
         {
             var responseData = _jobService.FindJobs(searchModel);

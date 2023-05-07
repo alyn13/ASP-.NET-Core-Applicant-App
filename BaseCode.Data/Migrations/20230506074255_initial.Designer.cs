@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BaseCode.Data.Migrations
 {
     [DbContext(typeof(BaseCodeEntities))]
-    [Migration("20230430092829_jobapi")]
-    partial class jobapi
+    [Migration("20230506074255_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,6 +31,14 @@ namespace BaseCode.Data.Migrations
                         .IsRequired()
                         .HasColumnName("Barangay")
                         .HasColumnType("varchar(200)");
+
+                    b.Property<string>("CVFileLocation")
+                        .IsRequired();
+
+                    b.Property<string>("CVFileName")
+                        .IsRequired()
+                        .HasColumnName("CVFileName")
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -52,8 +60,7 @@ namespace BaseCode.Data.Migrations
                         .HasColumnName("FirstName")
                         .HasColumnType("varchar(100)");
 
-                    b.Property<string>("JobRole")
-                        .IsRequired();
+                    b.Property<int>("JobId");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -90,31 +97,9 @@ namespace BaseCode.Data.Migrations
 
                     b.HasKey("ApplicantId");
 
+                    b.HasIndex("JobId");
+
                     b.ToTable("Applicant");
-                });
-
-            modelBuilder.Entity("BaseCode.Data.Models.CVFile", b =>
-                {
-                    b.Property<int>("CVFileID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ApplicantId");
-
-                    b.Property<string>("CVFileLocation");
-
-                    b.Property<string>("CVFileName")
-                        .HasColumnName("CVFileName")
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("CVFileType");
-
-                    b.HasKey("CVFileID");
-
-                    b.HasIndex("ApplicantId")
-                        .IsUnique();
-
-                    b.ToTable("CVFile");
                 });
 
             modelBuilder.Entity("BaseCode.Data.Models.Client", b =>
@@ -155,6 +140,8 @@ namespace BaseCode.Data.Migrations
 
                     b.Property<int>("ApplicantId");
 
+                    b.Property<int?>("CollegeEducationCollegeEducId");
+
                     b.Property<string>("CollegeName");
 
                     b.Property<string>("Degree");
@@ -167,7 +154,9 @@ namespace BaseCode.Data.Migrations
 
                     b.HasIndex("ApplicantId");
 
-                    b.ToTable("CollegeEducation");
+                    b.HasIndex("CollegeEducationCollegeEducId");
+
+                    b.ToTable("College");
                 });
 
             modelBuilder.Entity("BaseCode.Data.Models.Experience", b =>
@@ -199,6 +188,8 @@ namespace BaseCode.Data.Migrations
                         .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 1)))
                         .HasColumnName("CurrentlyWorking")
                         .HasColumnType("varchar(100)");
+
+                    b.Property<int?>("ExperienceId1");
 
                     b.Property<bool>("IsFirstJob")
                         .HasColumnName("IsFirstJob");
@@ -232,6 +223,8 @@ namespace BaseCode.Data.Migrations
 
                     b.HasIndex("ApplicantId");
 
+                    b.HasIndex("ExperienceId1");
+
                     b.ToTable("Experience");
                 });
 
@@ -242,6 +235,8 @@ namespace BaseCode.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("ApplicantId");
+
+                    b.Property<int?>("HighSchoolEducId1");
 
                     b.Property<string>("HighSchoolName");
 
@@ -254,7 +249,9 @@ namespace BaseCode.Data.Migrations
                     b.HasIndex("ApplicantId")
                         .IsUnique();
 
-                    b.ToTable("HighSchoolEducation");
+                    b.HasIndex("HighSchoolEducId1");
+
+                    b.ToTable("HighSchool");
                 });
 
             modelBuilder.Entity("BaseCode.Data.Models.Job", b =>
@@ -321,13 +318,17 @@ namespace BaseCode.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ApplicantId");
+                    b.Property<int>("ApplicantId");
+
+                    b.Property<int?>("SkillId1");
 
                     b.Property<string>("SkillName");
 
                     b.HasKey("SkillId");
 
                     b.HasIndex("ApplicantId");
+
+                    b.HasIndex("SkillId1");
 
                     b.ToTable("Skill");
                 });
@@ -366,13 +367,17 @@ namespace BaseCode.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ApplicantId");
+                    b.Property<int>("ApplicantId");
+
+                    b.Property<int?>("WebsiteId1");
 
                     b.Property<string>("WebsiteUrl");
 
                     b.HasKey("WebsiteId");
 
                     b.HasIndex("ApplicantId");
+
+                    b.HasIndex("WebsiteId1");
 
                     b.ToTable("Website");
                 });
@@ -538,11 +543,11 @@ namespace BaseCode.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("BaseCode.Data.Models.CVFile", b =>
+            modelBuilder.Entity("BaseCode.Data.Models.Applicant", b =>
                 {
-                    b.HasOne("BaseCode.Data.Models.Applicant", "Applicant")
-                        .WithOne("CVFile")
-                        .HasForeignKey("BaseCode.Data.Models.CVFile", "ApplicantId")
+                    b.HasOne("BaseCode.Data.Models.Job", "JobRole")
+                        .WithMany()
+                        .HasForeignKey("JobId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -552,6 +557,10 @@ namespace BaseCode.Data.Migrations
                         .WithMany("College")
                         .HasForeignKey("ApplicantId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BaseCode.Data.Models.CollegeEducation")
+                        .WithMany("Colleges")
+                        .HasForeignKey("CollegeEducationCollegeEducId");
                 });
 
             modelBuilder.Entity("BaseCode.Data.Models.Experience", b =>
@@ -560,6 +569,10 @@ namespace BaseCode.Data.Migrations
                         .WithMany("WorkExperience")
                         .HasForeignKey("ApplicantId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BaseCode.Data.Models.Experience")
+                        .WithMany("WorkExperience")
+                        .HasForeignKey("ExperienceId1");
                 });
 
             modelBuilder.Entity("BaseCode.Data.Models.HighSchoolEducation", b =>
@@ -568,20 +581,34 @@ namespace BaseCode.Data.Migrations
                         .WithOne("HighSchool")
                         .HasForeignKey("BaseCode.Data.Models.HighSchoolEducation", "ApplicantId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BaseCode.Data.Models.HighSchoolEducation", "HighSchool")
+                        .WithMany()
+                        .HasForeignKey("HighSchoolEducId1");
                 });
 
             modelBuilder.Entity("BaseCode.Data.Models.Skill", b =>
                 {
-                    b.HasOne("BaseCode.Data.Models.Applicant")
+                    b.HasOne("BaseCode.Data.Models.Applicant", "Applicant")
                         .WithMany("Skill")
-                        .HasForeignKey("ApplicantId");
+                        .HasForeignKey("ApplicantId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BaseCode.Data.Models.Skill")
+                        .WithMany("Skills")
+                        .HasForeignKey("SkillId1");
                 });
 
             modelBuilder.Entity("BaseCode.Data.Models.Website", b =>
                 {
-                    b.HasOne("BaseCode.Data.Models.Applicant")
+                    b.HasOne("BaseCode.Data.Models.Applicant", "Applicant")
                         .WithMany("Website")
-                        .HasForeignKey("ApplicantId");
+                        .HasForeignKey("ApplicantId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BaseCode.Data.Models.Website")
+                        .WithMany("Websites")
+                        .HasForeignKey("WebsiteId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
