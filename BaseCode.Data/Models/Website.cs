@@ -16,7 +16,5 @@ namespace BaseCode.Data.Models
         [ForeignKey("ApplicantId")]
         [JsonIgnore]
         public virtual Applicant Applicant { get; set; }
-        [JsonIgnore]
-        public virtual ICollection<Website> Websites { get; set; } //is redundant and unnecessary. It can be removed since it's not used in the context of the foreign key relationship between Applicant and Website.
     }
 }

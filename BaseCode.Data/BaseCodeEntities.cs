@@ -16,12 +16,12 @@ namespace BaseCode.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Disables cascade delete for tables with foreign key relationships
-            var cascadeTables = modelBuilder.Model.GetEntityTypes()
+            // Disables cascade delete for tables with foreign key relationships 
+            /*var cascadeTables = modelBuilder.Model.GetEntityTypes()
                 .SelectMany(foreignKeysTables => foreignKeysTables.GetForeignKeys())
                 .Where(foreignKeysTables => !foreignKeysTables.IsOwnership && 
                        foreignKeysTables.DeleteBehavior == DeleteBehavior.Cascade);
-
+            */
             modelBuilder.Entity<RefreshToken>()
                .HasAlternateKey(c => c.Username)
                .HasName("refreshToken_UserId");
@@ -29,11 +29,11 @@ namespace BaseCode.Data
             modelBuilder.Entity<RefreshToken>()
                .HasAlternateKey(c => c.Token)
                .HasName("refreshToken_Token");
-
+            /*
             foreach (var table in cascadeTables)
             {
                 table.DeleteBehavior = DeleteBehavior.Restrict;
-            }
+            }*/
 
             // ===== For MySQL users only =========
             // AspNetUserLogins

@@ -4,14 +4,16 @@ using BaseCode.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BaseCode.Data.Migrations
 {
     [DbContext(typeof(BaseCodeEntities))]
-    partial class BaseCodeEntitiesModelSnapshot : ModelSnapshot
+    [Migration("20230508092500_update-applicantModel-skill1")]
+    partial class updateapplicantModelskill1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -356,11 +358,15 @@ namespace BaseCode.Data.Migrations
 
                     b.Property<int>("ApplicantId");
 
+                    b.Property<int?>("WebsiteId1");
+
                     b.Property<string>("WebsiteUrl");
 
                     b.HasKey("WebsiteId");
 
                     b.HasIndex("ApplicantId");
+
+                    b.HasIndex("WebsiteId1");
 
                     b.ToTable("Website");
                 });
@@ -576,6 +582,10 @@ namespace BaseCode.Data.Migrations
                         .WithMany("Website")
                         .HasForeignKey("ApplicantId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("BaseCode.Data.Models.Website")
+                        .WithMany("Websites")
+                        .HasForeignKey("WebsiteId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

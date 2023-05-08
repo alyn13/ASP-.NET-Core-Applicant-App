@@ -111,19 +111,65 @@ namespace BaseCode.Data.Repositories
 
         public void Update(Applicant applicant)
         {
-            var studentUpdate = Find(applicant.ApplicantId);
-            studentUpdate.FirstName = applicant.FirstName;
-            studentUpdate.LastName = applicant.LastName;
-           /* studentUpdate.City = applicant.City;
-            studentUpdate.Class = applicant.Class;
-            studentUpdate.Country = applicant.Country;
-            studentUpdate.Email = applicant.Email;
-            studentUpdate.EnrollYear = applicant.EnrollYear;
-            studentUpdate.CreatedBy = applicant.CreatedBy;
-            studentUpdate.CreatedDate = applicant.CreatedDate;
-            studentUpdate.ModifiedBy = applicant.ModifiedBy;
-            /studentUpdate.ModifiedDate = applicant.ModifiedDate;*/
-            //this.SetEntityState(student, System.Data.Entity.EntityState.Modified);
+            var applicantUpdate = Find(applicant.ApplicantId);
+            applicantUpdate.FirstName = applicant.FirstName;
+            applicantUpdate.LastName = applicant.LastName;
+            applicantUpdate.Street = applicant.Street;
+            applicantUpdate.Barangay = applicant.Barangay;
+            applicantUpdate.City = applicant.City;
+            applicantUpdate.Province = applicant.Province;
+            applicantUpdate.ZipCode = applicant.ZipCode;
+            applicantUpdate.Country = applicant.Country;
+            applicantUpdate.Email = applicant.Email;
+            applicantUpdate.Phone = applicant.Phone;
+            applicantUpdate.CVFileName = applicant.CVFileName;
+            var websites = Context.Set<Website>();
+            foreach (var website in applicant.Website)
+            {
+                if (!websites.Local.Any(w => w.WebsiteId == website.WebsiteId))
+                {
+                    applicantUpdate.Website.Add(website);
+                }
+            }
+            //applicantUpdate.Website = applicant.Website;
+
+            var skills = Context.Set<Skill>();
+            foreach (var skill in applicant.Skill)
+            {
+                if (!skills.Local.Any(s => s.SkillId == skill.SkillId))
+                {
+                    applicantUpdate.Skill.Add(skill);
+                }
+            }
+            //applicantUpdate.Skill = applicant.Skill;
+            var collegeEducations = Context.Set<CollegeEducation>();
+            foreach (var collegeEducation in applicant.College)
+            {
+                if (!collegeEducations.Local.Any(c => c.CollegeEducId == collegeEducation.CollegeEducId))
+                {
+                    applicantUpdate.College.Add(collegeEducation);
+                }
+            }
+            //applicantUpdate.College = applicant.College;
+            var highSchoolEducations = Context.Set<HighSchoolEducation>();
+            if (applicant.HighSchool != null && !highSchoolEducations.Local.Any(h => h.HighSchoolEducId == applicant.HighSchool.HighSchoolEducId))
+            {
+                applicantUpdate.HighSchool = applicant.HighSchool;
+            }
+            //applicantUpdate.HighSchool = applicant.HighSchool;
+            var experiences = Context.Set<Experience>();
+            foreach (var experience in applicant.WorkExperience)
+            {
+                if (!experiences.Local.Any(e => e.ExperienceId == experience.ExperienceId))
+                {
+                    applicantUpdate.WorkExperience.Add(experience);
+                }
+            }
+            //applicantUpdate.WorkExperience = applicant.WorkExperience;
+            applicantUpdate.SubmissionDate = applicant.SubmissionDate;
+            applicantUpdate.Status = applicant.Status;
+            applicantUpdate.Remarks = applicant.Remarks;
+            applicantUpdate.JobApplied = applicant.JobApplied;
             UnitOfWork.SaveChanges();
         }
 

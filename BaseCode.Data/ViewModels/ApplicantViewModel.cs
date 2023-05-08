@@ -61,8 +61,8 @@ namespace BaseCode.Data.ViewModels
         [JsonProperty("applicant_website")]
         public ICollection<WebsiteViewModel> Website { get; set; } = new List<WebsiteViewModel>();
 
-        [JsonProperty("applicant_skill")] 
-        public List<string> Skill { get; set; } = new List<string>();
+        [JsonProperty("applicant_skill")]
+        public ICollection<SkillViewModel> Skill { get; set; } = new List<SkillViewModel>();
 
         [JsonProperty("applicant_college")] 
         public ICollection<CollegeViewModel> College { get; set; } = new List<CollegeViewModel>();
