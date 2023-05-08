@@ -51,9 +51,6 @@ namespace BaseCode.Data.Models
         [Required]
         public string Phone { get; set; }
         //
-        [Column("CVFileName", TypeName = "varchar(100)")]
-        [Required]
-        public string CVFileName { get; set; }
         [Required]
         public string CVFileLocation { get; set; }
         //

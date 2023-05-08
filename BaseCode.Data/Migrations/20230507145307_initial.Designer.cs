@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BaseCode.Data.Migrations
 {
     [DbContext(typeof(BaseCodeEntities))]
-    [Migration("20230506074255_initial")]
+    [Migration("20230507145307_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,11 +34,6 @@ namespace BaseCode.Data.Migrations
 
                     b.Property<string>("CVFileLocation")
                         .IsRequired();
-
-                    b.Property<string>("CVFileName")
-                        .IsRequired()
-                        .HasColumnName("CVFileName")
-                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -140,8 +135,6 @@ namespace BaseCode.Data.Migrations
 
                     b.Property<int>("ApplicantId");
 
-                    b.Property<int?>("CollegeEducationCollegeEducId");
-
                     b.Property<string>("CollegeName");
 
                     b.Property<string>("Degree");
@@ -153,8 +146,6 @@ namespace BaseCode.Data.Migrations
                     b.HasKey("CollegeEducId");
 
                     b.HasIndex("ApplicantId");
-
-                    b.HasIndex("CollegeEducationCollegeEducId");
 
                     b.ToTable("College");
                 });
@@ -183,13 +174,7 @@ namespace BaseCode.Data.Migrations
                         .HasColumnName("Country")
                         .HasColumnType("varchar(100)");
 
-                    b.Property<string>("CurrentlyWorking")
-                        .IsRequired()
-                        .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 1)))
-                        .HasColumnName("CurrentlyWorking")
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<int?>("ExperienceId1");
+                    b.Property<bool>("CurrentlyWorking");
 
                     b.Property<bool>("IsFirstJob")
                         .HasColumnName("IsFirstJob");
@@ -207,14 +192,12 @@ namespace BaseCode.Data.Migrations
                         .HasColumnType("varchar(200)");
 
                     b.Property<string>("TimeEnded")
-                        .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 48)))
                         .HasColumnName("TimeEnded")
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("varchar(7)");
 
                     b.Property<string>("TimeStarted")
-                        .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 48)))
                         .HasColumnName("TimeStarted")
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("varchar(7)");
 
                     b.Property<int>("ZipCode")
                         .HasColumnName("ZipCode");
@@ -222,8 +205,6 @@ namespace BaseCode.Data.Migrations
                     b.HasKey("ExperienceId");
 
                     b.HasIndex("ApplicantId");
-
-                    b.HasIndex("ExperienceId1");
 
                     b.ToTable("Experience");
                 });
@@ -236,8 +217,6 @@ namespace BaseCode.Data.Migrations
 
                     b.Property<int>("ApplicantId");
 
-                    b.Property<int?>("HighSchoolEducId1");
-
                     b.Property<string>("HighSchoolName");
 
                     b.Property<int>("YearEnded");
@@ -248,8 +227,6 @@ namespace BaseCode.Data.Migrations
 
                     b.HasIndex("ApplicantId")
                         .IsUnique();
-
-                    b.HasIndex("HighSchoolEducId1");
 
                     b.ToTable("HighSchool");
                 });
@@ -320,15 +297,11 @@ namespace BaseCode.Data.Migrations
 
                     b.Property<int>("ApplicantId");
 
-                    b.Property<int?>("SkillId1");
-
                     b.Property<string>("SkillName");
 
                     b.HasKey("SkillId");
 
                     b.HasIndex("ApplicantId");
-
-                    b.HasIndex("SkillId1");
 
                     b.ToTable("Skill");
                 });
@@ -369,15 +342,11 @@ namespace BaseCode.Data.Migrations
 
                     b.Property<int>("ApplicantId");
 
-                    b.Property<int?>("WebsiteId1");
-
                     b.Property<string>("WebsiteUrl");
 
                     b.HasKey("WebsiteId");
 
                     b.HasIndex("ApplicantId");
-
-                    b.HasIndex("WebsiteId1");
 
                     b.ToTable("Website");
                 });
@@ -557,10 +526,6 @@ namespace BaseCode.Data.Migrations
                         .WithMany("College")
                         .HasForeignKey("ApplicantId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("BaseCode.Data.Models.CollegeEducation")
-                        .WithMany("Colleges")
-                        .HasForeignKey("CollegeEducationCollegeEducId");
                 });
 
             modelBuilder.Entity("BaseCode.Data.Models.Experience", b =>
@@ -569,10 +534,6 @@ namespace BaseCode.Data.Migrations
                         .WithMany("WorkExperience")
                         .HasForeignKey("ApplicantId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("BaseCode.Data.Models.Experience")
-                        .WithMany("WorkExperience")
-                        .HasForeignKey("ExperienceId1");
                 });
 
             modelBuilder.Entity("BaseCode.Data.Models.HighSchoolEducation", b =>
@@ -581,10 +542,6 @@ namespace BaseCode.Data.Migrations
                         .WithOne("HighSchool")
                         .HasForeignKey("BaseCode.Data.Models.HighSchoolEducation", "ApplicantId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("BaseCode.Data.Models.HighSchoolEducation", "HighSchool")
-                        .WithMany()
-                        .HasForeignKey("HighSchoolEducId1");
                 });
 
             modelBuilder.Entity("BaseCode.Data.Models.Skill", b =>
@@ -593,10 +550,6 @@ namespace BaseCode.Data.Migrations
                         .WithMany("Skill")
                         .HasForeignKey("ApplicantId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("BaseCode.Data.Models.Skill")
-                        .WithMany("Skills")
-                        .HasForeignKey("SkillId1");
                 });
 
             modelBuilder.Entity("BaseCode.Data.Models.Website", b =>
@@ -605,10 +558,6 @@ namespace BaseCode.Data.Migrations
                         .WithMany("Website")
                         .HasForeignKey("ApplicantId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("BaseCode.Data.Models.Website")
-                        .WithMany("Websites")
-                        .HasForeignKey("WebsiteId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

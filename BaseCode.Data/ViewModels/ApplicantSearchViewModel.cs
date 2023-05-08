@@ -42,8 +42,6 @@ namespace BaseCode.Data.ViewModels
         [JsonProperty("applicantPhone")]
         public string ApplicantPhone { get; set; }
         //
-        [JsonProperty("applicantCVFileName")]
-        public string ApplicantCVFileName { get; set; }
         [JsonProperty("applicantCVFileLocation")]
         public string ApplicantCVFileLocation { get; set; }
 
@@ -70,7 +68,6 @@ namespace BaseCode.Data.ViewModels
 
         [JsonProperty("applicantPosition")]
         public string ApplicantPosition { get; set; }
-
 
         [JsonProperty("page")]
         public int Page { get; set; }

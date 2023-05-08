@@ -179,6 +179,9 @@ namespace BaseCode.Data
             public const string ApplicantHeaderId = "applicant_id";
             public const string ApplicantHeaderFirstName = "applicant_firstname";
             public const string ApplicantHeaderLastName = "applicant_lastname";
+            public const string ApplicantHeaderCity = "applicant_city";
+            public const string ApplicantHeaderProvince = "applicant_province";
+            public const string ApplicantHeaderCountry = "applicant_country";
             public const string ApplicantHeaderEmail = "applicant_email";
             public const string ApplicantHeaderSubmissionDate = "applicant_submissiondate";
             public const string ApplicantHeaderPosition = "applicant_position";

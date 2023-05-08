@@ -16,7 +16,7 @@ namespace BaseCode.Data.Models
         [ForeignKey("ApplicantId")]
         [JsonIgnore]
         public virtual Applicant Applicant { get; set; }
-        [JsonIgnore]
-        public virtual ICollection<Skill> Skills { get; set; }
+       // [JsonIgnore]
+       // public virtual ICollection<Skill> Skills { get; set; }
     }
 }

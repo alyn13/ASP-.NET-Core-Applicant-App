@@ -13,7 +13,7 @@ namespace BaseCode.Data.Models
         //
         [Column("IsFirstJob")]
         [Required]
-        public bool IsFirstJob { get; set; }
+        public bool IsFirstJob { get; set; } = true;
         //
         [Column("CompanyName", TypeName = "varchar(100)")]
         public string CompanyName { get; set; }
@@ -39,20 +39,19 @@ namespace BaseCode.Data.Models
         [Column("Country", TypeName = "varchar(100)")]
         public string Country { get; set; }
         //
-        [Column("CurrentlyWorking", TypeName = "varchar(100)")]
-        public bool CurrentlyWorking { get; set; }
+        public bool CurrentlyWorking { get; set; } = false;
         //
-        [Column("TimeStarted", TypeName = "varchar(100)")]
-        public DateTime? TimeStarted{ get; set; }
+        [Column("TimeStarted", TypeName = "varchar(7)")]
+        public string TimeStarted{ get; set; }
         //
-        [Column("TimeEnded", TypeName = "varchar(100)")]
-        public DateTime? TimeEnded { get; set; }
+        [Column("TimeEnded", TypeName = "varchar(7)")]
+        public string TimeEnded { get; set; }
         //
         public int ApplicantId { get; set; } //Foreign key
         [ForeignKey("ApplicantId")]
         [JsonIgnore]
         public virtual Applicant Applicant { get; set; }
-        [JsonIgnore]
-        public virtual ICollection<Experience> WorkExperience { get; set; }
+        
+       
     }
 }
