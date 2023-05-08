@@ -54,9 +54,6 @@ namespace BaseCode.Data.ViewModels
         [Required]
         public string Phone { get; set; }
         //
-        [JsonProperty("applicant_CVfile_name")]
-        [Required]
-        public string CVFileName { get; set; }
         [Required]
         [JsonProperty("applicant_CVfile_location")]
         public string CVFileLocation { get; set; }

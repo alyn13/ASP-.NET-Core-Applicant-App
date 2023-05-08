@@ -41,10 +41,10 @@ namespace BaseCode.Data.Models
         //
         public bool CurrentlyWorking { get; set; } = false;
         //
-        [Column("TimeStarted", TypeName = "varchar(7)")]
+        [Column("TimeStarted", TypeName = "varchar(8)")]
         public string TimeStarted{ get; set; }
         //
-        [Column("TimeEnded", TypeName = "varchar(7)")]
+        [Column("TimeEnded", TypeName = "varchar(8)")]
         public string TimeEnded { get; set; }
         //
         public int ApplicantId { get; set; } //Foreign key
