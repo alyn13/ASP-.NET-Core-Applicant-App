@@ -21,7 +21,8 @@ using BaseCode.Domain.Services;
 
 namespace BaseCode.API.Controllers
 {
-    [Authorize(AuthenticationSchemes = Constants.Common.Bearer, Roles = Constants.Roles.Admin)]
+    [AllowAnonymous]
+    //[Authorize(AuthenticationSchemes = Constants.Common.Bearer, Roles = Constants.Roles.ASI_HR)]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class ApplicantAPIController : ControllerBase
@@ -73,8 +74,6 @@ namespace BaseCode.API.Controllers
         [ActionName("add")]
         public HttpResponseMessage PostApplicant(ApplicantViewModel applicantModel)
         {
-
-            var temp = 0;
             /*try { if (!ModelState.IsValid) return Helper.ComposeResponse(HttpStatusCode.BadRequest, Helper.GetModelStateErrors(ModelState)); }
             catch (Exception ex)
             {
@@ -87,7 +86,7 @@ namespace BaseCode.API.Controllers
             }*/
 
              if (!ModelState.IsValid) return Helper.ComposeResponse(HttpStatusCode.BadRequest, Helper.GetModelStateErrors(ModelState));
-            temp = 1;
+            
             try
             {
                 var applicant = _mapper.Map<Applicant>(applicantModel);
@@ -96,24 +95,19 @@ namespace BaseCode.API.Controllers
                
                 if (validationResults.Any())
                 {
-                    temp = 2;
                     ModelState.AddModelErrors(validationResults);
                 }
 
                 if (ModelState.IsValid)
-                {
-                    temp = 3;
-                     _applicantService.Create(applicant);
-                    Console.WriteLine(temp);
+                {        
+                    _applicantService.Create(applicant);
                     return Helper.ComposeResponse(HttpStatusCode.OK, Constants.Applicant.ApplicantSuccessAdd);
                 }
             }
             catch (Exception ex)
             {
-                temp = 4;
                 ModelState.AddModelError(string.Empty, ex.Message);
             }
-            Console.WriteLine(temp);
             return Helper.ComposeResponse(HttpStatusCode.BadRequest, Helper.GetModelStateErrors(ModelState));
         }
 

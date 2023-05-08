@@ -45,9 +45,9 @@ namespace BaseCode.Data.ViewModels
         public bool CurrentlyWorking { get; set; }
         //
         [JsonProperty("time_started")]
-        public DateTime? TimeStarted { get; set; }
+        public string TimeStarted { get; set; }
         //
         [JsonProperty("time_ended")]
-        public DateTime? TimeEnded { get; set; }
+        public string TimeEnded { get; set; }
     }
 }

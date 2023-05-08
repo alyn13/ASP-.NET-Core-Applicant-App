@@ -4,14 +4,16 @@ using BaseCode.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BaseCode.Data.Migrations
 {
     [DbContext(typeof(BaseCodeEntities))]
-    partial class BaseCodeEntitiesModelSnapshot : ModelSnapshot
+    [Migration("20230508001322_update-field-in-applicant")]
+    partial class updatefieldinapplicant
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,6 +31,9 @@ namespace BaseCode.Data.Migrations
                         .IsRequired()
                         .HasColumnName("Barangay")
                         .HasColumnType("varchar(200)");
+
+                    b.Property<string>("CVFileLocation")
+                        .IsRequired();
 
                     b.Property<string>("CVFileName")
                         .IsRequired()
@@ -200,10 +205,12 @@ namespace BaseCode.Data.Migrations
                         .HasColumnType("varchar(200)");
 
                     b.Property<string>("TimeEnded")
+                        .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 48)))
                         .HasColumnName("TimeEnded")
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("TimeStarted")
+                        .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 48)))
                         .HasColumnName("TimeStarted")
                         .HasColumnType("varchar(100)");
 
