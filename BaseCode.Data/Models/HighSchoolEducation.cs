@@ -13,11 +13,10 @@ namespace BaseCode.Data.Models
         public int YearStarted { get; set; }
         public int YearEnded { get; set; }
 
-        public int ApplicantId { get; set; } //Foreign key
         [ForeignKey("ApplicantId")]
-        [JsonIgnore]
-        public virtual Applicant Applicant { get; set; }
-        [JsonIgnore]
-        public virtual HighSchoolEducation HighSchool { get; set; }
+        public int ApplicantId { get; set; } //Foreign key
+        
+        //[JsonIgnore]
+        //public virtual Applicant Applicant { get; set; }
     }
 }

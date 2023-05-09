@@ -17,7 +17,15 @@ namespace BaseCode.Data
 
         public void SaveChanges()
         {
-            Database.SaveChanges();
+            try
+            {
+                Database.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            
         }
 
         public void Dispose()

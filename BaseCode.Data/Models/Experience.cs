@@ -48,11 +48,10 @@ namespace BaseCode.Data.Models
         [Column("TimeEnded", TypeName = "varchar(100)")]
         public string TimeEnded { get; set; }
         //
-        public int ApplicantId { get; set; } //Foreign key
         [ForeignKey("ApplicantId")]
-        [JsonIgnore]
-        public virtual Applicant Applicant { get; set; }
-        [JsonIgnore]
-        public virtual ICollection<Experience> WorkExperience { get; set; }
+        public int ApplicantId { get; set; } //Foreign key
+        
+        //[JsonIgnore]
+        //public virtual Applicant Applicant { get; set; }
     }
 }

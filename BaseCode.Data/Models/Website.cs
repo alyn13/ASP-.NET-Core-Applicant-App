@@ -12,9 +12,11 @@ namespace BaseCode.Data.Models
         [Key] 
         public int WebsiteId { get; set; }
         public string WebsiteUrl { get; set; }
-        public int ApplicantId { get; set; } //Foreign key
+
         [ForeignKey("ApplicantId")]
-        [JsonIgnore]
-        public virtual Applicant Applicant { get; set; }
+        public int ApplicantId { get; set; } //Foreign key
+        
+        //[JsonIgnore]
+        //public virtual Applicant Applicant { get; set; }
     }
 }

@@ -4,10 +4,37 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BaseCode.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Applicant",
+                columns: table => new
+                {
+                    ApplicantId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FirstName = table.Column<string>(type: "varchar(100)", nullable: false),
+                    LastName = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Street = table.Column<string>(type: "varchar(300)", nullable: false),
+                    Barangay = table.Column<string>(type: "varchar(200)", nullable: false),
+                    City = table.Column<string>(type: "varchar(200)", nullable: false),
+                    Province = table.Column<string>(type: "varchar(200)", nullable: false),
+                    ZipCode = table.Column<int>(nullable: false),
+                    Country = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Email = table.Column<string>(type: "varchar(100)", nullable: false),
+                    Phone = table.Column<string>(type: "varchar(11)", nullable: false),
+                    CVFileName = table.Column<string>(type: "varchar(100)", nullable: false),
+                    SubmissionDate = table.Column<DateTime>(nullable: false),
+                    Status = table.Column<string>(type: "varchar(20)", nullable: false),
+                    Remarks = table.Column<string>(nullable: true),
+                    JobApplied = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Applicant", x => x.ApplicantId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -128,6 +155,122 @@ namespace BaseCode.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "College",
+                columns: table => new
+                {
+                    CollegeEducId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CollegeName = table.Column<string>(nullable: true),
+                    Degree = table.Column<string>(nullable: true),
+                    YearStarted = table.Column<int>(nullable: false),
+                    YearEnded = table.Column<int>(nullable: false),
+                    ApplicantId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_College", x => x.CollegeEducId);
+                    table.ForeignKey(
+                        name: "FK_College_Applicant_ApplicantId",
+                        column: x => x.ApplicantId,
+                        principalTable: "Applicant",
+                        principalColumn: "ApplicantId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Experience",
+                columns: table => new
+                {
+                    ExperienceId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    IsFirstJob = table.Column<bool>(nullable: false),
+                    CompanyName = table.Column<string>(type: "varchar(100)", nullable: true),
+                    Position = table.Column<string>(type: "varchar(100)", nullable: true),
+                    Street = table.Column<string>(type: "varchar(200)", nullable: true),
+                    Barangay = table.Column<string>(type: "varchar(200)", nullable: true),
+                    City = table.Column<string>(type: "varchar(200)", nullable: true),
+                    Province = table.Column<string>(type: "varchar(200)", nullable: true),
+                    ZipCode = table.Column<int>(nullable: false),
+                    Country = table.Column<string>(type: "varchar(100)", nullable: true),
+                    CurrentlyWorking = table.Column<string>(type: "varchar(100)", nullable: false),
+                    TimeStarted = table.Column<string>(type: "varchar(100)", nullable: true),
+                    TimeEnded = table.Column<string>(type: "varchar(100)", nullable: true),
+                    ApplicantId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Experience", x => x.ExperienceId);
+                    table.ForeignKey(
+                        name: "FK_Experience_Applicant_ApplicantId",
+                        column: x => x.ApplicantId,
+                        principalTable: "Applicant",
+                        principalColumn: "ApplicantId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HighSchool",
+                columns: table => new
+                {
+                    HighSchoolEducId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    HighSchoolName = table.Column<string>(nullable: true),
+                    YearStarted = table.Column<int>(nullable: false),
+                    YearEnded = table.Column<int>(nullable: false),
+                    ApplicantId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HighSchool", x => x.HighSchoolEducId);
+                    table.ForeignKey(
+                        name: "FK_HighSchool_Applicant_ApplicantId",
+                        column: x => x.ApplicantId,
+                        principalTable: "Applicant",
+                        principalColumn: "ApplicantId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Skill",
+                columns: table => new
+                {
+                    SkillId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    SkillName = table.Column<string>(nullable: true),
+                    ApplicantId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Skill", x => x.SkillId);
+                    table.ForeignKey(
+                        name: "FK_Skill_Applicant_ApplicantId",
+                        column: x => x.ApplicantId,
+                        principalTable: "Applicant",
+                        principalColumn: "ApplicantId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Website",
+                columns: table => new
+                {
+                    WebsiteId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    WebsiteUrl = table.Column<string>(nullable: true),
+                    ApplicantId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Website", x => x.WebsiteId);
+                    table.ForeignKey(
+                        name: "FK_Website_Applicant_ApplicantId",
+                        column: x => x.ApplicantId,
+                        principalTable: "Applicant",
+                        principalColumn: "ApplicantId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -233,196 +376,6 @@ namespace BaseCode.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Applicant",
-                columns: table => new
-                {
-                    ApplicantId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FirstName = table.Column<string>(type: "varchar(100)", nullable: false),
-                    LastName = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Street = table.Column<string>(type: "varchar(300)", nullable: false),
-                    Barangay = table.Column<string>(type: "varchar(200)", nullable: false),
-                    City = table.Column<string>(type: "varchar(200)", nullable: false),
-                    Province = table.Column<string>(type: "varchar(200)", nullable: false),
-                    ZipCode = table.Column<int>(nullable: false),
-                    Country = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Email = table.Column<string>(type: "varchar(100)", nullable: false),
-                    Phone = table.Column<string>(type: "varchar(11)", nullable: false),
-                    CVFileName = table.Column<string>(type: "varchar(100)", nullable: false),
-                    CVFileLocation = table.Column<string>(nullable: false),
-                    SubmissionDate = table.Column<DateTime>(nullable: false),
-                    Status = table.Column<string>(type: "varchar(20)", nullable: false),
-                    Remarks = table.Column<string>(nullable: true),
-                    JobId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Applicant", x => x.ApplicantId);
-                    table.ForeignKey(
-                        name: "FK_Applicant_Job_JobId",
-                        column: x => x.JobId,
-                        principalTable: "Job",
-                        principalColumn: "JobId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "College",
-                columns: table => new
-                {
-                    CollegeEducId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CollegeName = table.Column<string>(nullable: true),
-                    Degree = table.Column<string>(nullable: true),
-                    YearStarted = table.Column<int>(nullable: false),
-                    YearEnded = table.Column<int>(nullable: false),
-                    ApplicantId = table.Column<int>(nullable: false),
-                    CollegeEducationCollegeEducId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_College", x => x.CollegeEducId);
-                    table.ForeignKey(
-                        name: "FK_College_Applicant_ApplicantId",
-                        column: x => x.ApplicantId,
-                        principalTable: "Applicant",
-                        principalColumn: "ApplicantId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_College_College_CollegeEducationCollegeEducId",
-                        column: x => x.CollegeEducationCollegeEducId,
-                        principalTable: "College",
-                        principalColumn: "CollegeEducId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Experience",
-                columns: table => new
-                {
-                    ExperienceId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    IsFirstJob = table.Column<bool>(nullable: false),
-                    CompanyName = table.Column<string>(type: "varchar(100)", nullable: true),
-                    Position = table.Column<string>(type: "varchar(100)", nullable: true),
-                    Street = table.Column<string>(type: "varchar(200)", nullable: true),
-                    Barangay = table.Column<string>(type: "varchar(200)", nullable: true),
-                    City = table.Column<string>(type: "varchar(200)", nullable: true),
-                    Province = table.Column<string>(type: "varchar(200)", nullable: true),
-                    ZipCode = table.Column<int>(nullable: false),
-                    Country = table.Column<string>(type: "varchar(100)", nullable: true),
-                    CurrentlyWorking = table.Column<string>(type: "varchar(100)", nullable: false),
-                    TimeStarted = table.Column<string>(type: "varchar(100)", nullable: true),
-                    TimeEnded = table.Column<string>(type: "varchar(100)", nullable: true),
-                    ApplicantId = table.Column<int>(nullable: false),
-                    ExperienceId1 = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Experience", x => x.ExperienceId);
-                    table.ForeignKey(
-                        name: "FK_Experience_Applicant_ApplicantId",
-                        column: x => x.ApplicantId,
-                        principalTable: "Applicant",
-                        principalColumn: "ApplicantId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Experience_Experience_ExperienceId1",
-                        column: x => x.ExperienceId1,
-                        principalTable: "Experience",
-                        principalColumn: "ExperienceId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "HighSchool",
-                columns: table => new
-                {
-                    HighSchoolEducId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    HighSchoolName = table.Column<string>(nullable: true),
-                    YearStarted = table.Column<int>(nullable: false),
-                    YearEnded = table.Column<int>(nullable: false),
-                    ApplicantId = table.Column<int>(nullable: false),
-                    HighSchoolEducId1 = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_HighSchool", x => x.HighSchoolEducId);
-                    table.ForeignKey(
-                        name: "FK_HighSchool_Applicant_ApplicantId",
-                        column: x => x.ApplicantId,
-                        principalTable: "Applicant",
-                        principalColumn: "ApplicantId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_HighSchool_HighSchool_HighSchoolEducId1",
-                        column: x => x.HighSchoolEducId1,
-                        principalTable: "HighSchool",
-                        principalColumn: "HighSchoolEducId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Skill",
-                columns: table => new
-                {
-                    SkillId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    SkillName = table.Column<string>(nullable: true),
-                    ApplicantId = table.Column<int>(nullable: false),
-                    SkillId1 = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Skill", x => x.SkillId);
-                    table.ForeignKey(
-                        name: "FK_Skill_Applicant_ApplicantId",
-                        column: x => x.ApplicantId,
-                        principalTable: "Applicant",
-                        principalColumn: "ApplicantId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Skill_Skill_SkillId1",
-                        column: x => x.SkillId1,
-                        principalTable: "Skill",
-                        principalColumn: "SkillId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Website",
-                columns: table => new
-                {
-                    WebsiteId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    WebsiteUrl = table.Column<string>(nullable: true),
-                    ApplicantId = table.Column<int>(nullable: false),
-                    WebsiteId1 = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Website", x => x.WebsiteId);
-                    table.ForeignKey(
-                        name: "FK_Website_Applicant_ApplicantId",
-                        column: x => x.ApplicantId,
-                        principalTable: "Applicant",
-                        principalColumn: "ApplicantId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Website_Website_WebsiteId1",
-                        column: x => x.WebsiteId1,
-                        principalTable: "Website",
-                        principalColumn: "WebsiteId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Applicant_JobId",
-                table: "Applicant",
-                column: "JobId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -468,19 +421,9 @@ namespace BaseCode.Data.Migrations
                 column: "ApplicantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_College_CollegeEducationCollegeEducId",
-                table: "College",
-                column: "CollegeEducationCollegeEducId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Experience_ApplicantId",
                 table: "Experience",
                 column: "ApplicantId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Experience_ExperienceId1",
-                table: "Experience",
-                column: "ExperienceId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HighSchool_ApplicantId",
@@ -489,29 +432,14 @@ namespace BaseCode.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_HighSchool_HighSchoolEducId1",
-                table: "HighSchool",
-                column: "HighSchoolEducId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Skill_ApplicantId",
                 table: "Skill",
                 column: "ApplicantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Skill_SkillId1",
-                table: "Skill",
-                column: "SkillId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Website_ApplicantId",
                 table: "Website",
                 column: "ApplicantId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Website_WebsiteId1",
-                table: "Website",
-                column: "WebsiteId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -544,6 +472,9 @@ namespace BaseCode.Data.Migrations
                 name: "HighSchool");
 
             migrationBuilder.DropTable(
+                name: "Job");
+
+            migrationBuilder.DropTable(
                 name: "RefreshToken");
 
             migrationBuilder.DropTable(
@@ -563,9 +494,6 @@ namespace BaseCode.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Applicant");
-
-            migrationBuilder.DropTable(
-                name: "Job");
         }
     }
 }

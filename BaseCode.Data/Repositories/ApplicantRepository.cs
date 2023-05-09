@@ -123,49 +123,68 @@ namespace BaseCode.Data.Repositories
             applicantUpdate.Email = applicant.Email;
             applicantUpdate.Phone = applicant.Phone;
             applicantUpdate.CVFileName = applicant.CVFileName;
+            // Update Website entities
             var websites = Context.Set<Website>();
             foreach (var website in applicant.Website)
             {
                 if (!websites.Local.Any(w => w.WebsiteId == website.WebsiteId))
                 {
+                    // Attach the website entity to the Context
+                    Context.Website.Attach(website);
+                    // Set the state of the website entity to Modified
+                    Context.Entry(website).State = EntityState.Added;
                     applicantUpdate.Website.Add(website);
                 }
             }
-            //applicantUpdate.Website = applicant.Website;
-
+            // Update Skill entities
             var skills = Context.Set<Skill>();
             foreach (var skill in applicant.Skill)
             {
                 if (!skills.Local.Any(s => s.SkillId == skill.SkillId))
                 {
+                    // Attach the skill entity to the Context
+                    Context.Skill.Attach(skill);
+                    // Set the state of the skill entity to Modified
+                    Context.Entry(skill).State = EntityState.Modified;
                     applicantUpdate.Skill.Add(skill);
                 }
             }
-            //applicantUpdate.Skill = applicant.Skill;
+            // Update CollegeEducation entities
             var collegeEducations = Context.Set<CollegeEducation>();
             foreach (var collegeEducation in applicant.College)
             {
                 if (!collegeEducations.Local.Any(c => c.CollegeEducId == collegeEducation.CollegeEducId))
                 {
+                    // Attach the collegeEducation entity to the Context
+                    Context.College.Attach(collegeEducation);
+                    // Set the state of the collegeEducation entity to Modified
+                    Context.Entry(collegeEducation).State = EntityState.Modified;
                     applicantUpdate.College.Add(collegeEducation);
                 }
             }
-            //applicantUpdate.College = applicant.College;
+            // Update HighSchoolEducation entity
             var highSchoolEducations = Context.Set<HighSchoolEducation>();
             if (applicant.HighSchool != null && !highSchoolEducations.Local.Any(h => h.HighSchoolEducId == applicant.HighSchool.HighSchoolEducId))
             {
+                // Attach the highSchool entity to the Context
+                Context.HighSchool.Attach(applicant.HighSchool);
+                // Set the state of the highSchool entity to Modified
+                Context.Entry(applicant.HighSchool).State = EntityState.Modified;
                 applicantUpdate.HighSchool = applicant.HighSchool;
             }
-            //applicantUpdate.HighSchool = applicant.HighSchool;
+            // Update Experience entities
             var experiences = Context.Set<Experience>();
             foreach (var experience in applicant.WorkExperience)
             {
                 if (!experiences.Local.Any(e => e.ExperienceId == experience.ExperienceId))
                 {
+                    // Attach the experience entity to the Context
+                    Context.Experience.Attach(experience);
+                    // Set the state of the experience entity to Modified
+                    Context.Entry(experience).State = EntityState.Modified;
                     applicantUpdate.WorkExperience.Add(experience);
                 }
             }
-            //applicantUpdate.WorkExperience = applicant.WorkExperience;
             applicantUpdate.SubmissionDate = applicant.SubmissionDate;
             applicantUpdate.Status = applicant.Status;
             applicantUpdate.Remarks = applicant.Remarks;

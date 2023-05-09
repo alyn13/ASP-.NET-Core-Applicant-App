@@ -10,6 +10,7 @@ namespace BaseCode.Data.ViewModels
 {
     public class ExperienceViewModel
     {
+        [Key]
         [JsonProperty("experience_id")]
         public int ExperienceId { get; set; }
         //
