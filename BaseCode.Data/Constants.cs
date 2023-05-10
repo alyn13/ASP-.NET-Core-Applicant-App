@@ -78,6 +78,7 @@ namespace BaseCode.Data
         {
             public const string Admin = "Administrator";
             public const string User = "User";
+            public const string ASI_HR = "ASI_HR";
 
         }
 

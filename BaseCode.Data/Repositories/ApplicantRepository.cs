@@ -53,14 +53,17 @@ namespace BaseCode.Data.Repositories
                             (string.IsNullOrEmpty(searchModel.ApplicantCountry) || x.Country.Contains(searchModel.ApplicantCountry)) &&
                             (string.IsNullOrEmpty(searchModel.ApplicantEmail) || x.Email.Contains(searchModel.ApplicantEmail)) &&
                             (string.IsNullOrEmpty(searchModel.ApplicantPhone) || x.Phone.Contains(searchModel.ApplicantPhone)) &&
-                            (string.IsNullOrEmpty(searchModel.ApplicantCVFileLocation) || x.CVFileLocation.Contains(searchModel.ApplicantCVFileLocation)) && 
-                           // (string.IsNullOrEmpty(searchModel.ApplicantSkill) || x.Skill.ToString().Contains(searchModel.ApplicantSkill)) &&
+
+                            (string.IsNullOrEmpty(searchModel.ApplicantCVFileName) || x.CVFileName.Contains(searchModel.ApplicantCVFileName)) && //Watchout /might change to url
+                           //(string.IsNullOrEmpty(searchModel.ApplicantCVFileLocation) || x.CVFileLocation.Contains(searchModel.ApplicantCVFileLocation)) && 
+                            (string.IsNullOrEmpty(searchModel.ApplicantSkill) || x.Skill.ToString().Contains(searchModel.ApplicantSkill)) &&
+
                             //(string.IsNullOrEmpty(searchModel.ApplicantCollege) || x.College. .Contains(searchModel.ApplicantCollege)) &&
                             //(string.IsNullOrEmpty(searchModel.ApplicantHighSchool) || x.HighSchool.HighSchoolName.Contains(searchModel.ApplicantHighSchool)) &&
                            // (string.IsNullOrEmpty(searchModel.ApplicantExperience) || x.WorkExperience.ToString().Contains(searchModel.ApplicantExperience)) &&
                             (string.IsNullOrEmpty(searchModel.ApplicantSubmissionDate.ToString()) || x.SubmissionDate.ToString().Contains(searchModel.ApplicantSubmissionDate.ToString())) && 
-                            (string.IsNullOrEmpty(searchModel.ApplicantStatus) || x.Status.Contains(searchModel.ApplicantStatus)) &&
-                            (string.IsNullOrEmpty(searchModel.ApplicantPosition) || x.JobId.ToString().Contains(searchModel.ApplicantPosition)))
+                            (string.IsNullOrEmpty(searchModel.ApplicantStatus) || x.Status.Contains(searchModel.ApplicantStatus)) )
+                           // (string.IsNullOrEmpty(searchModel.ApplicantPosition) || x.JobId.ToString().Contains(searchModel.ApplicantPosition)))
                 .OrderByPropertyName(sortKey, sortDir);
 
             if (searchModel.Page == 0)
@@ -76,12 +79,20 @@ namespace BaseCode.Data.Repositories
                     firstname = applicant.FirstName,
                     lastname = applicant.LastName,
                     street = applicant.Street,
+                    barrangay = applicant.Barangay,
                     city = applicant.City,
+                    province = applicant.Province,
+                    zipcode = applicant.ZipCode,
                     country = applicant.Country,
-                   
                     email = applicant.Email,
+                    phone = applicant.Phone,
+                    cvName = applicant.CVFileName,
+                    skill = applicant.Skill,
+                    highSchool = applicant.HighSchool,
+                    submitdate = applicant.SubmissionDate,
                     status = applicant.Status,
-                    jobrole = applicant.JobId
+                    //status = applicant.Status,
+                    //jobrole = applicant.JobId
                 })
                 .ToList();
 
@@ -111,20 +122,77 @@ namespace BaseCode.Data.Repositories
             applicantUpdate.Province = applicant.Province;
             applicantUpdate.ZipCode = applicant.ZipCode;
             applicantUpdate.Country = applicant.Country;
-            applicantUpdate.Email = applicant.Email; 
+
+            applicantUpdate.Email = applicant.Email;
             applicantUpdate.Phone = applicant.Phone;
-            applicantUpdate.CVFileLocation = applicant.CVFileLocation;
-            applicantUpdate.Website = applicant.Website ;
-            applicantUpdate.Skill = applicant.Skill;
-            applicantUpdate.College = applicant.College;
-            applicantUpdate.HighSchool = applicant.HighSchool;
-            applicantUpdate.WorkExperience = applicant.WorkExperience;
+            applicantUpdate.CVFileName = applicant.CVFileName;
+            // Update Website entities
+            var websites = Context.Set<Website>();
+            foreach (var website in applicant.Website)
+            {
+                if (!websites.Local.Any(w => w.WebsiteId == website.WebsiteId))
+                {
+                    // Attach the website entity to the Context
+                    Context.Website.Attach(website);
+                    // Set the state of the website entity to Modified
+                    Context.Entry(website).State = EntityState.Added;
+                    applicantUpdate.Website.Add(website);
+                }
+            }
+            // Update Skill entities
+            var skills = Context.Set<Skill>();
+            foreach (var skill in applicant.Skill)
+            {
+                if (!skills.Local.Any(s => s.SkillId == skill.SkillId))
+                {
+                    // Attach the skill entity to the Context
+                    Context.Skill.Attach(skill);
+                    // Set the state of the skill entity to Modified
+                    Context.Entry(skill).State = EntityState.Modified;
+                    applicantUpdate.Skill.Add(skill);
+                }
+            }
+            // Update CollegeEducation entities
+            var collegeEducations = Context.Set<CollegeEducation>();
+            foreach (var collegeEducation in applicant.College)
+            {
+                if (!collegeEducations.Local.Any(c => c.CollegeEducId == collegeEducation.CollegeEducId))
+                {
+                    // Attach the collegeEducation entity to the Context
+                    Context.College.Attach(collegeEducation);
+                    // Set the state of the collegeEducation entity to Modified
+                    Context.Entry(collegeEducation).State = EntityState.Modified;
+                    applicantUpdate.College.Add(collegeEducation);
+                }
+            }
+            // Update HighSchoolEducation entity
+            var highSchoolEducations = Context.Set<HighSchoolEducation>();
+            if (applicant.HighSchool != null && !highSchoolEducations.Local.Any(h => h.HighSchoolEducId == applicant.HighSchool.HighSchoolEducId))
+            {
+                // Attach the highSchool entity to the Context
+                Context.HighSchool.Attach(applicant.HighSchool);
+                // Set the state of the highSchool entity to Modified
+                Context.Entry(applicant.HighSchool).State = EntityState.Modified;
+                applicantUpdate.HighSchool = applicant.HighSchool;
+            }
+            // Update Experience entities
+            var experiences = Context.Set<Experience>();
+            foreach (var experience in applicant.WorkExperience)
+            {
+                if (!experiences.Local.Any(e => e.ExperienceId == experience.ExperienceId))
+                {
+                    // Attach the experience entity to the Context
+                    Context.Experience.Attach(experience);
+                    // Set the state of the experience entity to Modified
+                    Context.Entry(experience).State = EntityState.Modified;
+                    applicantUpdate.WorkExperience.Add(experience);
+                }
+            }
             applicantUpdate.SubmissionDate = applicant.SubmissionDate;
             applicantUpdate.Status = applicant.Status;
             applicantUpdate.Remarks = applicant.Remarks;
-            applicantUpdate.JobId = applicant.JobId;
+            applicantUpdate.JobApplied = applicant.JobApplied;
 
-            //this.SetEntityState(student, System.Data.Entity.EntityState.Modified);
             UnitOfWork.SaveChanges();
         }
 

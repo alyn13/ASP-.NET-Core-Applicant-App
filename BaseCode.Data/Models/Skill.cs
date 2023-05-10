@@ -12,11 +12,12 @@ namespace BaseCode.Data.Models
         [Key] 
         public int SkillId { get; set; }
         public string SkillName { get; set; }
-        public int ApplicantId { get; set; } //Foreign key
+
         [ForeignKey("ApplicantId")]
-        [JsonIgnore]
-        public virtual Applicant Applicant { get; set; }
-       // [JsonIgnore]
-       // public virtual ICollection<Skill> Skills { get; set; }
+
+        public int ApplicantId { get; set; } //Foreign key
+        
+        //[JsonIgnore]
+        //public virtual Applicant Applicant { get; set; }
     }
 }

@@ -54,9 +54,9 @@ namespace BaseCode.Data.ViewModels
         [Required]
         public string Phone { get; set; }
         //
+        [JsonProperty("applicant_CVfile_name")]
         [Required]
-        [JsonProperty("applicant_CVfile_location")]
-        public string CVFileLocation { get; set; }
+        public string CVFileName { get; set; }
 
         [JsonProperty("applicant_website")]
         public ICollection<WebsiteViewModel> Website { get; set; } = new List<WebsiteViewModel>();
@@ -75,7 +75,7 @@ namespace BaseCode.Data.ViewModels
 
         [JsonProperty("applicant_submissiondate")]
         [Required]
-        public DateTime SubmissionDate { get; set; }
+        public DateTime SubmissionDate { get; set; } = DateTime.Now;
         //
         [JsonProperty("applicant_status")]
         [Required]
@@ -84,8 +84,8 @@ namespace BaseCode.Data.ViewModels
         [JsonProperty("applicant_remarks")]
         public string Remarks { get; set; }
         //
-        [JsonProperty("applicant_job_role")]
+        [JsonProperty("applicant_job_applied")]
         [Required]
-        public int JobId { get; set; }
+        public string JobApplied { get; set; }
     }
 }
