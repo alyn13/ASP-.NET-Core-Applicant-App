@@ -18,5 +18,6 @@ namespace BaseCode.Data.Models
         
         //[JsonIgnore]
         //public virtual Applicant Applicant { get; set; }
+
     }
 }

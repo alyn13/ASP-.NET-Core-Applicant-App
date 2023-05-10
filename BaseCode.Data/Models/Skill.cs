@@ -14,6 +14,7 @@ namespace BaseCode.Data.Models
         public string SkillName { get; set; }
 
         [ForeignKey("ApplicantId")]
+
         public int ApplicantId { get; set; } //Foreign key
         
         //[JsonIgnore]

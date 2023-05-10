@@ -53,11 +53,13 @@ namespace BaseCode.Data.Repositories
                             (string.IsNullOrEmpty(searchModel.ApplicantCountry) || x.Country.Contains(searchModel.ApplicantCountry)) &&
                             (string.IsNullOrEmpty(searchModel.ApplicantEmail) || x.Email.Contains(searchModel.ApplicantEmail)) &&
                             (string.IsNullOrEmpty(searchModel.ApplicantPhone) || x.Phone.Contains(searchModel.ApplicantPhone)) &&
+
                             (string.IsNullOrEmpty(searchModel.ApplicantCVFileName) || x.CVFileName.Contains(searchModel.ApplicantCVFileName)) && //Watchout /might change to url
                            //(string.IsNullOrEmpty(searchModel.ApplicantCVFileLocation) || x.CVFileLocation.Contains(searchModel.ApplicantCVFileLocation)) && 
                             (string.IsNullOrEmpty(searchModel.ApplicantSkill) || x.Skill.ToString().Contains(searchModel.ApplicantSkill)) &&
+
                             //(string.IsNullOrEmpty(searchModel.ApplicantCollege) || x.College. .Contains(searchModel.ApplicantCollege)) &&
-                            (string.IsNullOrEmpty(searchModel.ApplicantHighSchool) || x.HighSchool.HighSchoolName.Contains(searchModel.ApplicantHighSchool)) &&
+                            //(string.IsNullOrEmpty(searchModel.ApplicantHighSchool) || x.HighSchool.HighSchoolName.Contains(searchModel.ApplicantHighSchool)) &&
                            // (string.IsNullOrEmpty(searchModel.ApplicantExperience) || x.WorkExperience.ToString().Contains(searchModel.ApplicantExperience)) &&
                             (string.IsNullOrEmpty(searchModel.ApplicantSubmissionDate.ToString()) || x.SubmissionDate.ToString().Contains(searchModel.ApplicantSubmissionDate.ToString())) && 
                             (string.IsNullOrEmpty(searchModel.ApplicantStatus) || x.Status.Contains(searchModel.ApplicantStatus)) )
@@ -120,6 +122,7 @@ namespace BaseCode.Data.Repositories
             applicantUpdate.Province = applicant.Province;
             applicantUpdate.ZipCode = applicant.ZipCode;
             applicantUpdate.Country = applicant.Country;
+
             applicantUpdate.Email = applicant.Email;
             applicantUpdate.Phone = applicant.Phone;
             applicantUpdate.CVFileName = applicant.CVFileName;
@@ -189,6 +192,7 @@ namespace BaseCode.Data.Repositories
             applicantUpdate.Status = applicant.Status;
             applicantUpdate.Remarks = applicant.Remarks;
             applicantUpdate.JobApplied = applicant.JobApplied;
+
             UnitOfWork.SaveChanges();
         }
 
@@ -222,29 +226,33 @@ namespace BaseCode.Data.Repositories
                     break;
 
                 case (Constants.Applicant.ApplicantHeaderFirstName):
-                    sortKey = "Name";
+                    sortKey = "FirstName";
+                    break;
+
+                case (Constants.Applicant.ApplicantHeaderLastName):
+                    sortKey = "LastName";
                     break;
 
                 case (Constants.Applicant.ApplicantHeaderEmail):
                     sortKey = "Email";
-                    break;
-/*
-                case (Constants.Student.StudentHeaderClass):
-                    sortKey = "Class";
+                    break;                
+
+                case (Constants.Applicant.ApplicantHeaderSubmissionDate):
+                    sortKey = "SubmissionDate";
                     break;
 
-                case (Constants.Student.StudentHeaderEnrollYear):
-                    sortKey = "EnrollYear";
-                    break;
-
-                case (Constants.Student.StudentHeaderCity):
+                case (Constants.Applicant.ApplicantHeaderCity):
                     sortKey = "City";
                     break;
 
-                case (Constants.Student.StudentHeaderCountry):
+                case (Constants.Applicant.ApplicantHeaderProvince):
+                    sortKey = "Province";
+                    break;
+
+                case (Constants.Applicant.ApplicantHeaderCountry):
                     sortKey = "Country";
                     break;
-*/
+
                 default:
                     sortKey = "ApplicantID";
                     break;

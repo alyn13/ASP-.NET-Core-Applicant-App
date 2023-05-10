@@ -79,7 +79,7 @@ namespace BaseCode.Data.ViewModels
         //
         [JsonProperty("applicant_status")]
         [Required]
-        public string Status { get; set; }
+        public string Status { get; set; } = "To View";
         //
         [JsonProperty("applicant_remarks")]
         public string Remarks { get; set; }

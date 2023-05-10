@@ -4,14 +4,16 @@ using BaseCode.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BaseCode.Data.Migrations
 {
     [DbContext(typeof(BaseCodeEntities))]
-    partial class BaseCodeEntitiesModelSnapshot : ModelSnapshot
+    [Migration("20230507145307_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,12 +32,8 @@ namespace BaseCode.Data.Migrations
                         .HasColumnName("Barangay")
                         .HasColumnType("varchar(200)");
 
-
-                    b.Property<string>("CVFileName")
-                        .IsRequired()
-                        .HasColumnName("CVFileName")
-                        .HasColumnType("varchar(100)");
-
+                    b.Property<string>("CVFileLocation")
+                        .IsRequired();
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -57,7 +55,7 @@ namespace BaseCode.Data.Migrations
                         .HasColumnName("FirstName")
                         .HasColumnType("varchar(100)");
 
-                    b.Property<string>("JobApplied");
+                    b.Property<int>("JobId");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -93,6 +91,8 @@ namespace BaseCode.Data.Migrations
                         .HasColumnName("ZipCode");
 
                     b.HasKey("ApplicantId");
+
+                    b.HasIndex("JobId");
 
                     b.ToTable("Applicant");
                 });
@@ -174,13 +174,7 @@ namespace BaseCode.Data.Migrations
                         .HasColumnName("Country")
                         .HasColumnType("varchar(100)");
 
-
-                    b.Property<string>("CurrentlyWorking")
-                        .IsRequired()
-                        .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 1)))
-                        .HasColumnName("CurrentlyWorking")
-                        .HasColumnType("varchar(100)");
-
+                    b.Property<bool>("CurrentlyWorking");
 
                     b.Property<bool>("IsFirstJob")
                         .HasColumnName("IsFirstJob");
@@ -518,51 +512,52 @@ namespace BaseCode.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("BaseCode.Data.Models.Applicant", b =>
+                {
+                    b.HasOne("BaseCode.Data.Models.Job", "JobRole")
+                        .WithMany()
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("BaseCode.Data.Models.CollegeEducation", b =>
                 {
-                    b.HasOne("BaseCode.Data.Models.Applicant")
+                    b.HasOne("BaseCode.Data.Models.Applicant", "Applicant")
                         .WithMany("College")
                         .HasForeignKey("ApplicantId")
-
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                     
-
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("BaseCode.Data.Models.Experience", b =>
                 {
-                    b.HasOne("BaseCode.Data.Models.Applicant")
+                    b.HasOne("BaseCode.Data.Models.Applicant", "Applicant")
                         .WithMany("WorkExperience")
                         .HasForeignKey("ApplicantId")
-
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("BaseCode.Data.Models.HighSchoolEducation", b =>
                 {
-                    b.HasOne("BaseCode.Data.Models.Applicant")
+                    b.HasOne("BaseCode.Data.Models.Applicant", "Applicant")
                         .WithOne("HighSchool")
                         .HasForeignKey("BaseCode.Data.Models.HighSchoolEducation", "ApplicantId")
-
-                        .OnDelete(DeleteBehavior.Cascade);
-
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("BaseCode.Data.Models.Skill", b =>
                 {
-                    b.HasOne("BaseCode.Data.Models.Applicant")
+                    b.HasOne("BaseCode.Data.Models.Applicant", "Applicant")
                         .WithMany("Skill")
                         .HasForeignKey("ApplicantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("BaseCode.Data.Models.Website", b =>
                 {
-                    b.HasOne("BaseCode.Data.Models.Applicant")
+                    b.HasOne("BaseCode.Data.Models.Applicant", "Applicant")
                         .WithMany("Website")
                         .HasForeignKey("ApplicantId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
