@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BaseCode.Data.Migrations
 {
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -192,9 +192,9 @@ namespace BaseCode.Data.Migrations
                     Province = table.Column<string>(type: "varchar(200)", nullable: true),
                     ZipCode = table.Column<int>(nullable: false),
                     Country = table.Column<string>(type: "varchar(100)", nullable: true),
-                    CurrentlyWorking = table.Column<string>(type: "varchar(100)", nullable: false),
-                    TimeStarted = table.Column<string>(type: "varchar(100)", nullable: true),
-                    TimeEnded = table.Column<string>(type: "varchar(100)", nullable: true),
+                    CurrentlyWorking = table.Column<bool>(nullable: false),
+                    TimeStarted = table.Column<string>(type: "varchar(7)", nullable: true),
+                    TimeEnded = table.Column<string>(type: "varchar(7)", nullable: true),
                     ApplicantId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

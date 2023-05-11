@@ -30,12 +30,10 @@ namespace BaseCode.Data.Migrations
                         .HasColumnName("Barangay")
                         .HasColumnType("varchar(200)");
 
-
                     b.Property<string>("CVFileName")
                         .IsRequired()
                         .HasColumnName("CVFileName")
                         .HasColumnType("varchar(100)");
-
 
                     b.Property<string>("City")
                         .IsRequired()
@@ -174,13 +172,7 @@ namespace BaseCode.Data.Migrations
                         .HasColumnName("Country")
                         .HasColumnType("varchar(100)");
 
-
-                    b.Property<string>("CurrentlyWorking")
-                        .IsRequired()
-                        .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 1)))
-                        .HasColumnName("CurrentlyWorking")
-                        .HasColumnType("varchar(100)");
-
+                    b.Property<bool>("CurrentlyWorking");
 
                     b.Property<bool>("IsFirstJob")
                         .HasColumnName("IsFirstJob");
@@ -523,11 +515,7 @@ namespace BaseCode.Data.Migrations
                     b.HasOne("BaseCode.Data.Models.Applicant")
                         .WithMany("College")
                         .HasForeignKey("ApplicantId")
-
                         .OnDelete(DeleteBehavior.Cascade);
-
-                     
-
                 });
 
             modelBuilder.Entity("BaseCode.Data.Models.Experience", b =>
@@ -535,7 +523,6 @@ namespace BaseCode.Data.Migrations
                     b.HasOne("BaseCode.Data.Models.Applicant")
                         .WithMany("WorkExperience")
                         .HasForeignKey("ApplicantId")
-
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -544,9 +531,7 @@ namespace BaseCode.Data.Migrations
                     b.HasOne("BaseCode.Data.Models.Applicant")
                         .WithOne("HighSchool")
                         .HasForeignKey("BaseCode.Data.Models.HighSchoolEducation", "ApplicantId")
-
                         .OnDelete(DeleteBehavior.Cascade);
-
                 });
 
             modelBuilder.Entity("BaseCode.Data.Models.Skill", b =>

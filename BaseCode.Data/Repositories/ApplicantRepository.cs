@@ -42,28 +42,13 @@ namespace BaseCode.Data.Repositories
                 Constants.SortDirection.Descending : Constants.SortDirection.Ascending;
 
             var applicants = RetrieveAll()
-                .Where(x => (string.IsNullOrEmpty(searchModel.ApplicantId) || x.ApplicantId.ToString().Contains(searchModel.ApplicantId)) &&
+                /*.Where(x => (string.IsNullOrEmpty(searchModel.ApplicantId) || x.ApplicantId.ToString().Contains(searchModel.ApplicantId)) &&
                             (string.IsNullOrEmpty(searchModel.ApplicantFName) || x.FirstName.Contains(searchModel.ApplicantFName)) &&
                             (string.IsNullOrEmpty(searchModel.ApplicantLName) || x.LastName.Contains(searchModel.ApplicantLName)) &&
-                            (string.IsNullOrEmpty(searchModel.ApplicantStreet) || x.Street.Contains(searchModel.ApplicantStreet)) &&
-                            (string.IsNullOrEmpty(searchModel.ApplicantBarangay) || x.Barangay.Contains(searchModel.ApplicantBarangay)) &&
-                            (string.IsNullOrEmpty(searchModel.ApplicantCity) || x.City.Contains(searchModel.ApplicantCity)) &&
-                            (string.IsNullOrEmpty(searchModel.ApplicantProvince) || x.Province.Contains(searchModel.ApplicantProvince)) &&
-                            (string.IsNullOrEmpty(searchModel.ApplicantZipCode) || x.ZipCode.ToString().Contains(searchModel.ApplicantZipCode)) &&
-                            (string.IsNullOrEmpty(searchModel.ApplicantCountry) || x.Country.Contains(searchModel.ApplicantCountry)) &&
-                            (string.IsNullOrEmpty(searchModel.ApplicantEmail) || x.Email.Contains(searchModel.ApplicantEmail)) &&
-                            (string.IsNullOrEmpty(searchModel.ApplicantPhone) || x.Phone.Contains(searchModel.ApplicantPhone)) &&
-
-                            (string.IsNullOrEmpty(searchModel.ApplicantCVFileName) || x.CVFileName.Contains(searchModel.ApplicantCVFileName)) && //Watchout /might change to url
-                           //(string.IsNullOrEmpty(searchModel.ApplicantCVFileLocation) || x.CVFileLocation.Contains(searchModel.ApplicantCVFileLocation)) && 
-                            (string.IsNullOrEmpty(searchModel.ApplicantSkill) || x.Skill.ToString().Contains(searchModel.ApplicantSkill)) &&
-
-                            //(string.IsNullOrEmpty(searchModel.ApplicantCollege) || x.College. .Contains(searchModel.ApplicantCollege)) &&
-                            //(string.IsNullOrEmpty(searchModel.ApplicantHighSchool) || x.HighSchool.HighSchoolName.Contains(searchModel.ApplicantHighSchool)) &&
-                           // (string.IsNullOrEmpty(searchModel.ApplicantExperience) || x.WorkExperience.ToString().Contains(searchModel.ApplicantExperience)) &&
-                            (string.IsNullOrEmpty(searchModel.ApplicantSubmissionDate.ToString()) || x.SubmissionDate.ToString().Contains(searchModel.ApplicantSubmissionDate.ToString())) && 
-                            (string.IsNullOrEmpty(searchModel.ApplicantStatus) || x.Status.Contains(searchModel.ApplicantStatus)) )
-                           // (string.IsNullOrEmpty(searchModel.ApplicantPosition) || x.JobId.ToString().Contains(searchModel.ApplicantPosition)))
+                            (string.IsNullOrEmpty(searchModel.ApplicantSubmissionDate.ToString()) || x.SubmissionDate.ToString().Contains(searchModel.ApplicantSubmissionDate.ToString())) &&
+                            (string.IsNullOrEmpty(searchModel.ApplicantPosition) || x.JobApplied.ToString().Contains(searchModel.ApplicantPosition)) &&
+                            (string.IsNullOrEmpty(searchModel.ApplicantStatus) || x.Status.Contains(searchModel.ApplicantStatus)) )*/
+                            
                 .OrderByPropertyName(sortKey, sortDir);
 
             if (searchModel.Page == 0)
@@ -78,21 +63,9 @@ namespace BaseCode.Data.Repositories
                     id = applicant.ApplicantId,
                     firstname = applicant.FirstName,
                     lastname = applicant.LastName,
-                    street = applicant.Street,
-                    barrangay = applicant.Barangay,
-                    city = applicant.City,
-                    province = applicant.Province,
-                    zipcode = applicant.ZipCode,
-                    country = applicant.Country,
-                    email = applicant.Email,
-                    phone = applicant.Phone,
-                    cvName = applicant.CVFileName,
-                    skill = applicant.Skill,
-                    highSchool = applicant.HighSchool,
                     submitdate = applicant.SubmissionDate,
-                    status = applicant.Status,
-                    //status = applicant.Status,
-                    //jobrole = applicant.JobId
+                    jobrole = applicant.JobApplied,
+                    status = applicant.Status  
                 })
                 .ToList();
 
@@ -233,24 +206,31 @@ namespace BaseCode.Data.Repositories
                     sortKey = "LastName";
                     break;
 
-                case (Constants.Applicant.ApplicantHeaderEmail):
+                /*case (Constants.Applicant.ApplicantHeaderEmail):
                     sortKey = "Email";
-                    break;                
+                    break;    */            
 
                 case (Constants.Applicant.ApplicantHeaderSubmissionDate):
                     sortKey = "SubmissionDate";
                     break;
 
-                case (Constants.Applicant.ApplicantHeaderCity):
-                    sortKey = "City";
+                /* case (Constants.Applicant.ApplicantHeaderCity):
+                     sortKey = "City";
+                     break;
+
+                 case (Constants.Applicant.ApplicantHeaderProvince):
+                     sortKey = "Province";
+                     break;
+
+                 case (Constants.Applicant.ApplicantHeaderCountry):
+                     sortKey = "Country";
+                     break;*/
+                case (Constants.Applicant.ApplicantHeaderJobApplied):
+                    sortKey = "JobApplied";
                     break;
 
-                case (Constants.Applicant.ApplicantHeaderProvince):
-                    sortKey = "Province";
-                    break;
-
-                case (Constants.Applicant.ApplicantHeaderCountry):
-                    sortKey = "Country";
+                case (Constants.Applicant.ApplicantHeaderStatus):
+                    sortKey = "ApplicantStatus";
                     break;
 
                 default:
