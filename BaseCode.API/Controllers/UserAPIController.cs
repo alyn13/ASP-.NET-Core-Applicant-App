@@ -29,6 +29,8 @@ namespace BaseCode.API.Controllers
             _userService = userService;
             _mapper = mapper;
         }
+
+        [AllowAnonymous]
         [HttpGet]
         [ActionName("listAllUsers")]
         public HttpResponseMessage GetStudentList([FromQuery] UserAdminViewModel searchModel)
@@ -36,6 +38,7 @@ namespace BaseCode.API.Controllers
             var responseData = _userService.FindAllUsers(searchModel);
             return Helper.ComposeResponse(HttpStatusCode.OK, responseData);
         }
+
         [AllowAnonymous]
         [HttpPost]
         [ActionName("register")]
@@ -51,6 +54,8 @@ namespace BaseCode.API.Controllers
 
             return errorResult ? Helper.ComposeResponse(HttpStatusCode.BadRequest, ModelState) : Helper.ComposeResponse(HttpStatusCode.OK, Constants.User.ReegisterSuccess);
         }
+
+
         [HttpPut]
         [ActionName("updateAdmin")]
         public HttpResponseMessage PutAdmin(UserUpdateViewModel userModel)
@@ -66,7 +71,7 @@ namespace BaseCode.API.Controllers
             else return Helper.ComposeResponse(HttpStatusCode.BadRequest, ModelState);
         }
 
-        [AllowAnonymous]
+        
         [HttpDelete]
         [ActionName("deleteAdmin")]
         public HttpResponseMessage DeleteAdmin(string id)
