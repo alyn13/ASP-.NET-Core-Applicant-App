@@ -14,8 +14,6 @@ namespace BaseCode.Data.ViewModels
         [JsonProperty("experience_id")]
         public int ExperienceId { get; set; }
         //
-        
-        //
         [JsonProperty("company_name")]
         public string CompanyName { get; set; }
         //

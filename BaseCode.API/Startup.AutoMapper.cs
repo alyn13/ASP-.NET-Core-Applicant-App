@@ -59,7 +59,7 @@ namespace BaseCode.API
                    .ForMember(dest => dest.College, opt => opt.MapFrom(src => src.College.Select(c => new CollegeViewModel { CollegeEducId = c.CollegeEducId, CollegeName = c.CollegeName, Degree = c.Degree, YearStarted = c.YearStarted, YearEnded = c.YearEnded })))
                    .ForMember(dest => dest.HighSchool, opt => opt.MapFrom(src => new HighSchoolViewModel { HighSchoolEducId = src.HighSchool.HighSchoolEducId, HighSchoolName = src.HighSchool.HighSchoolName, YearStarted = src.HighSchool.YearStarted, YearEnded = src.HighSchool.YearEnded }))
                    .ForMember(dest => dest.WorkExperience, opt => opt.MapFrom(src => src.WorkExperience.Select(e => new ExperienceViewModel 
-                     { ExperienceId = e.ExperienceId, IsFirstJob = e.IsFirstJob, CompanyName = e.CompanyName, Position = e.Position, Street = e.Street,
+                     { ExperienceId = e.ExperienceId, CompanyName = e.CompanyName, Position = e.Position, Street = e.Street,
                       Barangay = e.Barangay, City = e.City, Province = e.Province, ZipCode = e.ZipCode, Country = e.Country, CurrentlyWorking = e.CurrentlyWorking,
                        TimeStarted = e.TimeStarted, TimeEnded = e.TimeEnded })))
                    ;

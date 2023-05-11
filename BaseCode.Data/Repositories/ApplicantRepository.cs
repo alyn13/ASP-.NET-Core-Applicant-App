@@ -99,6 +99,7 @@ namespace BaseCode.Data.Repositories
             applicantUpdate.Email = applicant.Email;
             applicantUpdate.Phone = applicant.Phone;
             applicantUpdate.CVFileName = applicant.CVFileName;
+            
             // Update Website entities
             var websites = Context.Set<Website>();
             foreach (var website in applicant.Website)
@@ -148,6 +149,10 @@ namespace BaseCode.Data.Repositories
                 Context.Entry(applicant.HighSchool).State = EntityState.Modified;
                 applicantUpdate.HighSchool = applicant.HighSchool;
             }
+
+            applicantUpdate.IsFirstJob = applicant.IsFirstJob;
+
+
             // Update Experience entities
             var experiences = Context.Set<Experience>();
             foreach (var experience in applicant.WorkExperience)

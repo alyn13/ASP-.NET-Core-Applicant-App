@@ -17,7 +17,7 @@ using System.Security.Claims;
 using Constants = BaseCode.Data.Constants;
 
 using BaseCode.Domain.Services;
-
+using System.Net.Mail;
 
 namespace BaseCode.API.Controllers
 {
@@ -99,7 +99,34 @@ namespace BaseCode.API.Controllers
                 }
 
                 if (ModelState.IsValid)
-                {        
+                {
+                    string fromMail = "groupfour.alliance@gmail.com";
+                    string password = "jtdslucomfdnmvoa";
+
+                    MailMessage message = new MailMessage();
+                    message.From = new MailAddress(fromMail);
+                    message.Subject = "[Alliance Software, Inc] Acknowledgment of Job Application";
+                    message.To.Add(new MailAddress(applicant.Email));
+                    message.Body = $"<html><body><p>Dear {applicant.FirstName},</p>"+
+                        $"<p>I hope this email finds you well. I am writing to confirm that we have received your job application for the position of {applicant.JobApplied} at Alliance Software, Inc. </p>"+
+                        "<p>We appreciate your interest in joining our team and would like to assure you that your application is currently under review. </p><p>Our HR team is currently reviewing applications, "+
+                        "and we appreciate your interest in joining our organization. We understand that waiting can be challenging, but please be assured that your qualifications and experience will "+
+                        "be carefully assessed in relation to the requirements of the role. </p><p>Just keep posted as we will notify you of the update of the status of your application. Should any further "+
+                        "information be required, we will contact you using the details provided in your application. </p> <p> </p> <p>Thank you for your patience and consideration.</p>" +
+                        "<p></p><p>Best regards,</p> <p>HR Recruitment Associate<br>Alliance Software, Inc.</p></body></html>";
+
+                    message.IsBodyHtml = true;
+
+                    var smtpClient = new SmtpClient("smtp.gmail.com")
+                    {
+                        Port = 587,
+                        Credentials = new NetworkCredential(fromMail, password),
+                        EnableSsl = true
+                    };
+
+                    smtpClient.Send(message);
+
+
                     _applicantService.Create(applicant);
                     return Helper.ComposeResponse(HttpStatusCode.OK, Constants.Applicant.ApplicantSuccessAdd);
                 }

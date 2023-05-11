@@ -63,9 +63,9 @@ namespace BaseCode.Data.Models
         //     
         public virtual HighSchoolEducation HighSchool { get; set; }
         //
-        /*[JsonProperty("experience_isfirstjob")]
+        [JsonProperty("experience_isfirstjob")]
         [Required]
-        public bool IsFirstJob { get; set; } */
+        public bool IsFirstJob { get; set; } 
         public virtual ICollection<Experience> WorkExperience { get; set; }
         //
         [Column("SubmissionDate")]

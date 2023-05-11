@@ -69,6 +69,8 @@ namespace BaseCode.Data.ViewModels
 
         [JsonProperty("applicant_highschool")] 
         public HighSchoolViewModel HighSchool { get; set; } = new HighSchoolViewModel();
+        [JsonProperty("applicant_isfirstjob")]
+        public bool IsFirstJob { get; set; }
 
         [JsonProperty("applicant_experience")] 
         public ICollection<ExperienceViewModel> WorkExperience { get; set; } = new List<ExperienceViewModel>();
