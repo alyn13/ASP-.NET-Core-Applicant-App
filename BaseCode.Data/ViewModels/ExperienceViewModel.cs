@@ -14,9 +14,7 @@ namespace BaseCode.Data.ViewModels
         [JsonProperty("experience_id")]
         public int ExperienceId { get; set; }
         //
-        [JsonProperty("experience_isfirstjob")]
-        [Required]
-        public bool IsFirstJob { get; set; }
+        
         //
         [JsonProperty("company_name")]
         public string CompanyName { get; set; }

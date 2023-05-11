@@ -172,6 +172,7 @@ namespace BaseCode.Data
         public class User
         {
             public const string InvalidUserNamePassword = "Invalid username or password.";
+            public const string LoginSuccess = "Login Sucessfully";
         }
 
         public class Applicant

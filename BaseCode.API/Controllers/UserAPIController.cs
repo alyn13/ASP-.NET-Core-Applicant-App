@@ -4,6 +4,7 @@ using BaseCode.Domain.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MySqlX.XDevAPI.Common;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -52,7 +53,21 @@ namespace BaseCode.API.Controllers
 
             return errorResult ? Helper.ComposeResponse(HttpStatusCode.BadRequest, Constants.Common.InvalidRole) : Helper.ComposeResponse(HttpStatusCode.OK, "Successfully added role");
         }
+        [AllowAnonymous]
+        [HttpPost]
+        [ActionName("login")]
+        public async Task<HttpResponseMessage> Login(UserLoginViewModel userLogin)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Helper.ComposeResponse(HttpStatusCode.BadRequest, Helper.GetModelStateErrors(ModelState));
+            }
+            var result = await _userService.FindUserAsync(userLogin.UserName, userLogin.Password);
+            if (result == null) return Helper.ComposeResponse(HttpStatusCode.BadRequest, Constants.User.InvalidUserNamePassword);
 
+
+            return Helper.ComposeResponse(HttpStatusCode.OK, Constants.User.LoginSuccess);
+        }
         private bool GetErrorResult(IdentityResult result)
         {
             if (result.Succeeded || result.Errors == null) return false;
