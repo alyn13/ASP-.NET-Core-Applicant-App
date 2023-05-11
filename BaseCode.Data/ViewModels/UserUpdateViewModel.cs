@@ -13,13 +13,18 @@ namespace BaseCode.Data.ViewModels
         [JsonProperty(PropertyName = "adminID")]
         public string AdminID { get; set; }
 
-        [JsonProperty(PropertyName = "fname")]
+        
+        [JsonProperty(PropertyName = "uname")]
+        public string UserName { get; set; }
+
+        [JsonProperty(PropertyName = "first_name")]
         public string FirstName { get; set; }
 
-        [JsonProperty(PropertyName = "lname")]
+        [JsonProperty(PropertyName = "last_name")]
         public string LastName { get; set; }
 
+        [Display(Name = "Email")]
         [JsonProperty(PropertyName = "email")]
-        public string Address { get; set; }
+        public string EmailAddress { get; set; }
     }
 }

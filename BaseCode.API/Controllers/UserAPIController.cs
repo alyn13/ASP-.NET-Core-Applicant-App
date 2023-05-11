@@ -55,7 +55,7 @@ namespace BaseCode.API.Controllers
             return errorResult ? Helper.ComposeResponse(HttpStatusCode.BadRequest, ModelState) : Helper.ComposeResponse(HttpStatusCode.OK, Constants.User.ReegisterSuccess);
         }
 
-
+        [AllowAnonymous]
         [HttpPut]
         [ActionName("updateAdmin")]
         public HttpResponseMessage PutAdmin(UserUpdateViewModel userModel)
@@ -71,7 +71,7 @@ namespace BaseCode.API.Controllers
             else return Helper.ComposeResponse(HttpStatusCode.BadRequest, ModelState);
         }
 
-        
+        [AllowAnonymous]
         [HttpDelete]
         [ActionName("deleteAdmin")]
         public HttpResponseMessage DeleteAdmin(string id)
