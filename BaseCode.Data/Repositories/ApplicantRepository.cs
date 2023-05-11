@@ -114,7 +114,7 @@ namespace BaseCode.Data.Repositories
                 }
             }
             // Update Skill entities
-            var skills = Context.Set<Skill>();
+            /*var skills = Context.Set<Skill>();
             foreach (var skill in applicant.Skill)
             {
                 if (!skills.Local.Any(s => s.SkillId == skill.SkillId))
@@ -125,6 +125,35 @@ namespace BaseCode.Data.Repositories
                     Context.Entry(skill).State = EntityState.Modified;
                     applicantUpdate.Skill.Add(skill);
                 }
+            }*/
+
+            // Update Skill entities
+            var skills = Context.Set<Skill>();
+            foreach (var skill in applicant.Skill)
+            {
+                if (skill.SkillId == 0)
+                {
+                    // If the SkillId is 0, it indicates a new skill entity
+                    // Add the skill entity to the Context
+                    skills.Add(skill);
+                }
+                else
+                {
+                    var existingSkill = skills.Local.FirstOrDefault(s => s.SkillId == skill.SkillId);
+                    if (existingSkill != null)
+                    {
+                        // Skill with the same SkillId is already being tracked, skip the operation
+                        continue;
+                    }
+
+                    // Attach the skill entity to the Context
+                    skills.Attach(skill);
+                    // Set the state of the skill entity to Modified
+                    Context.Entry(skill).State = EntityState.Modified;
+                }
+
+                // Add the skill to the applicant's Skill collection
+                applicantUpdate.Skill.Add(skill);
             }
             // Update CollegeEducation entities
             var collegeEducations = Context.Set<CollegeEducation>();
