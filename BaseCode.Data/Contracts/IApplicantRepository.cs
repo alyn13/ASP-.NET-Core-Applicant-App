@@ -19,6 +19,7 @@ namespace BaseCode.Data.Contracts
         void Delete(Applicant applicant);
         void DeleteById(int id);
         bool IsApplicantExists(string firstname, string lastname);
+        bool IsApplicantEmailExists(string email);
         string GetSortKey(string sortBy);
     }
 }

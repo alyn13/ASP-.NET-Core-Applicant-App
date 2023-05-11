@@ -192,7 +192,12 @@ namespace BaseCode.Data.Repositories
         {
             return GetDbSet<Applicant>().Any(x => x.FirstName.Equals(firstname, StringComparison.OrdinalIgnoreCase) && x.LastName.Equals(lastname, StringComparison.OrdinalIgnoreCase));
         }
-        
+
+        public bool IsApplicantEmailExists(string email)
+        {
+            return GetDbSet<Applicant>().Any(x => x.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+        }
+
         public string GetSortKey(string sortBy)
         {
             string sortKey;

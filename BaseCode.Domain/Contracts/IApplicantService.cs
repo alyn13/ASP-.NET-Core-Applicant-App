@@ -17,6 +17,7 @@ namespace BaseCode.Domain.Contracts
         void Update(Applicant applicant);
         void Delete(Applicant applicant);
         void DeleteById(int id);
-        bool IsApplicantExists(string firstname, string lastname); //might change parameter to firstname and lastname
+        bool IsApplicantExists(string firstname, string lastname);
+        bool IsApplicantEmailExists(string email);
     }
 }

@@ -39,7 +39,7 @@ namespace BaseCode.Data.Models
         [Column("Country", TypeName = "varchar(100)")]
         public string Country { get; set; }
         //
-        public bool CurrentlyWorking { get; set; } = false;
+        public bool CurrentlyWorking { get; set; } 
         //
 
         [Column("TimeStarted", TypeName = "varchar(7)")]

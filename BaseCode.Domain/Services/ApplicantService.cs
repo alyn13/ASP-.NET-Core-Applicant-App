@@ -70,5 +70,9 @@ namespace BaseCode.Domain.Services
         {
             return _applicantRepository.IsApplicantExists(firstname, lastname);
         }
+        public bool IsApplicantEmailExists(string email)
+        {
+            return _applicantRepository.IsApplicantEmailExists(email);
+        }
     }
 }

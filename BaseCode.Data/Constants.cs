@@ -202,6 +202,7 @@ namespace BaseCode.Data
 
             // Messages
             public const string ApplicantNameExists = "Applicant name already exists";
+            public const string ApplicantEmailExists = "Applicant email already exists";
             public const string ApplicantEntryInvalid = "Applicant entry is not valid!";
             public const string ApplicantNotExist = "Applicant does not exist.";
             public const string ApplicantDoesNotExists = "Applicant does not exist.";

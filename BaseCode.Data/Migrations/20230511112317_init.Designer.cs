@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BaseCode.Data.Migrations
 {
     [DbContext(typeof(BaseCodeEntities))]
-    [Migration("20230511061234_delete-UserID-Prop-in-UserModel")]
-    partial class deleteUserIDPropinUserModel
+    [Migration("20230511112317_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,6 +56,8 @@ namespace BaseCode.Data.Migrations
                         .IsRequired()
                         .HasColumnName("FirstName")
                         .HasColumnType("varchar(100)");
+
+                    b.Property<bool>("IsFirstJob");
 
                     b.Property<string>("JobApplied");
 

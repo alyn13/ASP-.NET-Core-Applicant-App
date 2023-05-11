@@ -14,6 +14,9 @@ namespace BaseCode.Data.ViewModels
         [JsonProperty("experience_id")]
         public int ExperienceId { get; set; }
         //
+        [JsonProperty("applicant_isfirstjob")]
+        public bool IsFirstJob { get; set; }
+        //
         [JsonProperty("company_name")]
         public string CompanyName { get; set; }
         //
@@ -39,13 +42,13 @@ namespace BaseCode.Data.ViewModels
         public string Country { get; set; }
         //
         [JsonProperty("currently_working")]
-        public bool CurrentlyWorking { get; set; }
+        public bool CurrentlyWorking { get; set; } = false;
         //
         [JsonProperty("time_started")]
         public string TimeStarted { get; set; }
         //
         [JsonProperty("time_ended")]
         public string TimeEnded { get; set; }
-        public bool IsFirstJob { get; set; }
+        
     }
 }

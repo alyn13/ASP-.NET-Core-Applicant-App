@@ -29,6 +29,10 @@ namespace BaseCode.Domain.Handlers
                 {
                     validationErrors.Add(new ValidationResult(Constants.Applicant.ApplicantNameExists));
                 }
+                if (_applicantService.IsApplicantEmailExists(applicant.Email))
+                {
+                    validationErrors.Add(new ValidationResult(Constants.Applicant.ApplicantEmailExists));
+                }
             }
             else
             {
@@ -48,7 +52,11 @@ namespace BaseCode.Domain.Handlers
 
                 if (dbApplicant != null)
                 {
-                    if (!dbApplicant.FirstName.Equals(applicant.FirstName) && _applicantService.IsApplicantExists(applicant.FirstName, applicant.LastName))
+                    if (!(dbApplicant.FirstName.Equals(applicant.FirstName) && dbApplicant.LastName.Equals(applicant.LastName)) && _applicantService.IsApplicantExists(applicant.FirstName, applicant.LastName))
+                    {
+                        validationErrors.Add(new ValidationResult(Constants.Applicant.ApplicantNameExists));
+                    }
+                    if (!dbApplicant.Email.Equals(applicant.Email) && _applicantService.IsApplicantExists(applicant.FirstName, applicant.LastName))
                     {
                         validationErrors.Add(new ValidationResult(Constants.Applicant.ApplicantNameExists));
                     }
