@@ -48,7 +48,7 @@ namespace BaseCode.Domain.Handlers
 
                 if (dbApplicant != null)
                 {
-                    if (!dbApplicant.FirstName.Equals(applicant.FirstName) && _applicantService.IsApplicantExists(applicant.FirstName, applicant.LastName))// check out
+                    if (!dbApplicant.FirstName.Equals(applicant.FirstName) && _applicantService.IsApplicantExists(applicant.FirstName, applicant.LastName))
                     {
                         validationErrors.Add(new ValidationResult(Constants.Applicant.ApplicantNameExists));
                     }

@@ -14,9 +14,11 @@ namespace BaseCode.Data.Models
         public string WebsiteUrl { get; set; }
 
         [ForeignKey("ApplicantId")]
+
         public int ApplicantId { get; set; } //Foreign key
         
         //[JsonIgnore]
         //public virtual Applicant Applicant { get; set; }
+
     }
 }
