@@ -8,7 +8,7 @@ namespace BaseCode.Data.Models
 {
     public class Experience
     {
-        [Key] 
+        [Key]
         public int ExperienceId { get; set; }
         //
         [Column("IsFirstJob")]
@@ -39,11 +39,11 @@ namespace BaseCode.Data.Models
         [Column("Country", TypeName = "varchar(100)")]
         public string Country { get; set; }
         //
-        public bool CurrentlyWorking { get; set; } 
+        public bool CurrentlyWorking { get; set; }
         //
 
         [Column("TimeStarted", TypeName = "varchar(7)")]
-        public string TimeStarted{ get; set; }
+        public string TimeStarted { get; set; }
         //
         [Column("TimeEnded", TypeName = "varchar(7)")]
 
@@ -51,8 +51,13 @@ namespace BaseCode.Data.Models
         //
         [ForeignKey("ApplicantId")]
         public int ApplicantId { get; set; } //Foreign key
-        
+
         //[JsonIgnore]
         //public virtual Applicant Applicant { get; set; }
+
+        public Experience()
+        {
+            CurrentlyWorking = false;
+        }
     }
 }

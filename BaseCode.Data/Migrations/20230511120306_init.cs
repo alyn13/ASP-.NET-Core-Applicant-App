@@ -25,7 +25,6 @@ namespace BaseCode.Data.Migrations
                     Email = table.Column<string>(type: "varchar(100)", nullable: false),
                     Phone = table.Column<string>(type: "varchar(11)", nullable: false),
                     CVFileName = table.Column<string>(type: "varchar(100)", nullable: false),
-                    IsFirstJob = table.Column<bool>(nullable: false),
                     SubmissionDate = table.Column<DateTime>(nullable: false),
                     Status = table.Column<string>(type: "varchar(20)", nullable: false),
                     Remarks = table.Column<string>(nullable: true),

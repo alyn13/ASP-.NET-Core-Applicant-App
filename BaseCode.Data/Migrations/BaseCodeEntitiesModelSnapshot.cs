@@ -55,8 +55,6 @@ namespace BaseCode.Data.Migrations
                         .HasColumnName("FirstName")
                         .HasColumnType("varchar(100)");
 
-                    b.Property<bool>("IsFirstJob");
-
                     b.Property<string>("JobApplied");
 
                     b.Property<string>("LastName")

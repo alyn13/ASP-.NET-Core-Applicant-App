@@ -150,9 +150,6 @@ namespace BaseCode.Data.Repositories
                 applicantUpdate.HighSchool = applicant.HighSchool;
             }
 
-            applicantUpdate.IsFirstJob = applicant.IsFirstJob;
-
-
             // Update Experience entities
             var experiences = Context.Set<Experience>();
             foreach (var experience in applicant.WorkExperience)

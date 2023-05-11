@@ -42,7 +42,7 @@ namespace BaseCode.Data.ViewModels
         public string Country { get; set; }
         //
         [JsonProperty("currently_working")]
-        public bool CurrentlyWorking { get; set; } = false;
+        public bool CurrentlyWorking { get; set; }
         //
         [JsonProperty("time_started")]
         public string TimeStarted { get; set; }
