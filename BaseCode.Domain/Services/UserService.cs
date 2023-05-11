@@ -1,8 +1,11 @@
 ﻿using BaseCode.Data.Contracts;
 using BaseCode.Data.Models;
+using BaseCode.Data.ViewModels;
+using BaseCode.Data.ViewModels.Common;
 using BaseCode.Domain.Contracts;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BaseCode.Domain.Services
@@ -31,7 +34,7 @@ namespace BaseCode.Domain.Services
             return _userRepository.FindUser(userName);
         }
 
-        public IEnumerable<User> FindAll()
+        public IQueryable<User> FindAll()
         {
             return _userRepository.FindAll();
         }
@@ -41,7 +44,7 @@ namespace BaseCode.Domain.Services
             return _userRepository.Create(user);
         }
 
-        public bool Update(User user)
+        public bool Update(UserUpdateViewModel user)
         {
             return _userRepository.Update(user);
         }
@@ -68,6 +71,16 @@ namespace BaseCode.Domain.Services
         public async Task<IdentityUser> FindUser(string username, string password)
         {
             return await _userRepository.FindUser(username, password);
+        }
+
+        public ListViewModel FindAllUsers(UserAdminViewModel searchModel)
+        {
+            return _userRepository.FindAllUsers(searchModel);
+        }
+
+        public void DeleteById(string id)
+        {
+            _userRepository.DeleteById(id);
         }
     }
 }

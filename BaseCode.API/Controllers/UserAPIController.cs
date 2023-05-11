@@ -1,13 +1,19 @@
-﻿using BaseCode.Data;
+﻿using AutoMapper;
+using BaseCode.Data;
+using BaseCode.Data.Models;
 using BaseCode.Data.ViewModels;
 using BaseCode.Domain.Contracts;
+using BaseCode.Domain.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MySqlX.XDevAPI.Common;
+using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Constants = BaseCode.Data.Constants;
 
 namespace BaseCode.API.Controllers
 {
@@ -16,12 +22,20 @@ namespace BaseCode.API.Controllers
     public class UserAPIController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public UserAPIController(IUserService userService)
+        public UserAPIController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
-
+        [HttpGet]
+        [ActionName("listAllUsers")]
+        public HttpResponseMessage GetStudentList([FromQuery] UserAdminViewModel searchModel)
+        {
+            var responseData = _userService.FindAllUsers(searchModel);
+            return Helper.ComposeResponse(HttpStatusCode.OK, responseData);
+        }
         [AllowAnonymous]
         [HttpPost]
         [ActionName("register")]
@@ -35,7 +49,42 @@ namespace BaseCode.API.Controllers
             var result = await _userService.RegisterUser(userModel.UserName, userModel.Password, userModel.FirstName, userModel.LastName, userModel.EmailAddress, userModel.RoleName);
             var errorResult = GetErrorResult(result);
 
-            return errorResult ? Helper.ComposeResponse(HttpStatusCode.BadRequest, ModelState) : Helper.ComposeResponse(HttpStatusCode.OK, "Successfully added user");
+            return errorResult ? Helper.ComposeResponse(HttpStatusCode.BadRequest, ModelState) : Helper.ComposeResponse(HttpStatusCode.OK, Constants.User.ReegisterSuccess);
+        }
+        [HttpPut]
+        [ActionName("updateAdmin")]
+        public HttpResponseMessage PutAdmin(UserUpdateViewModel userModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Helper.ComposeResponse(HttpStatusCode.BadRequest, Helper.GetModelStateErrors(ModelState));
+            }
+
+            var result = _userService.Update(userModel);
+
+            if (result == true) return Helper.ComposeResponse(HttpStatusCode.OK, "Successfully updated user");
+            else return Helper.ComposeResponse(HttpStatusCode.BadRequest, ModelState);
+        }
+
+        [AllowAnonymous]
+        [HttpDelete]
+        [ActionName("deleteAdmin")]
+        public HttpResponseMessage DeleteAdmin(string id)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _userService.DeleteById(id);
+                    return Helper.ComposeResponse(HttpStatusCode.OK, "Deleted Successfully");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+            }
+
+            return Helper.ComposeResponse(HttpStatusCode.BadRequest, Helper.GetModelStateErrors(ModelState));
         }
 
         [AllowAnonymous]
@@ -68,6 +117,17 @@ namespace BaseCode.API.Controllers
 
             return Helper.ComposeResponse(HttpStatusCode.OK, Constants.User.LoginSuccess);
         }
+        /*
+        [AllowAnonymous]
+        [HttpPost]
+        [ActionName("view_users")]
+        public async Task<HttpResponseMessage> ViewAllUsers(UserLoginViewModel userLogin)
+        {
+            //var responseData = _userService.FindAll(userLogin);
+            return Helper.ComposeResponse(HttpStatusCode.OK, responseData);
+        }
+        */
+
         private bool GetErrorResult(IdentityResult result)
         {
             if (result.Succeeded || result.Errors == null) return false;

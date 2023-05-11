@@ -40,5 +40,6 @@ namespace BaseCode.Data.ViewModels
 
         [JsonProperty("sortOrder")]
         public string SortOrder { get; set; }
+        public string ApplicantCVFileName { get; internal set; }
     }
 }

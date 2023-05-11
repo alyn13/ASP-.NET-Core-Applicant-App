@@ -1,4 +1,7 @@
-﻿using System.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json;
+using System.Configuration;
 
 namespace BaseCode.Data
 {
@@ -173,6 +176,14 @@ namespace BaseCode.Data
         {
             public const string InvalidUserNamePassword = "Invalid username or password.";
             public const string LoginSuccess = "Login Sucessfully";
+
+            //Sort Keys
+            public const string AdminID = "admin_id";
+            public const string FirstName = "first_name";
+            public const string LastName = "last_name";
+            public const string Email = "email";
+
+            public static object ReegisterSuccess = "Register Sucessful";
         }
 
         public class Applicant
