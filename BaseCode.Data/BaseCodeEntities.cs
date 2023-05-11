@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace BaseCode.Data
 {
-    public partial class BaseCodeEntities : IdentityDbContext<IdentityUser>
+    public partial class BaseCodeEntities : IdentityDbContext<IdentityUser> 
     {
         public BaseCodeEntities(DbContextOptions<BaseCodeEntities> options) 
             : base(options)

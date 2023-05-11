@@ -126,7 +126,7 @@ namespace BaseCode.Data.Repositories
 
             return null;
         }        
-
+        //can use in login
         public async Task<IdentityUser> FindUser(string userName, string password)
         {
             var user = await _userManager.FindByNameAsync(userName);
