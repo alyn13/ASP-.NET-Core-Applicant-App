@@ -48,5 +48,6 @@ namespace BaseCode.Data.ViewModels
         //
         [JsonProperty("time_ended")]
         public string TimeEnded { get; set; }
+        public bool IsFirstJob { get; set; }
     }
 }
