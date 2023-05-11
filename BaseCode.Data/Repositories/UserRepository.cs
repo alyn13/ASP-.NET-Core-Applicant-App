@@ -49,6 +49,8 @@ namespace BaseCode.Data.Repositories
                     firstname = user.FirstName,
                     lastname = user.LastName,
                     email = user.Address,
+                    username = user.Username,
+                    
                 })
                 .ToList();
             var pagination = new
@@ -119,6 +121,7 @@ namespace BaseCode.Data.Repositories
             return true;
         }
 
+        //edit admin/ASI_HR users
         public bool Update(UserUpdateViewModel user)
         {
             bool isUpdate = false;
@@ -126,9 +129,11 @@ namespace BaseCode.Data.Repositories
             var userUpdate = FindById(user.AdminID);
             if (userUpdate != null)
             {
+                userUpdate.Username = user.UserName;
                 userUpdate.FirstName = user.FirstName;
                 userUpdate.LastName = user.LastName;
-                userUpdate.Address = user.Address;
+                userUpdate.Address = user.EmailAddress;
+                
                 UnitOfWork.SaveChanges();
 
                 isUpdate = true;
