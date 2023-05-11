@@ -12,6 +12,9 @@ namespace BaseCode.Data.ViewModels
         [JsonProperty(PropertyName = "adminID")]
         public string AdminID { get; set; }
 
+        [JsonProperty(PropertyName = "uname")]
+        public string UserName { get; set; }
+
         [JsonProperty(PropertyName = "fname")]
         public string FirstName { get; set; }
 
